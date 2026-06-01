@@ -1,0 +1,57 @@
+21.Symmetric Matrix
+
+scanf("フォーマット", ＆変数名)
+
+"%d" : int
+"%lld : long long
+
+"N = %d/n" : N = 整数
+
+
+#include <stdio.h>
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+	int test;
+ 
+	cin >> test;
+	for(int i=1; i<=test; i++){
+ 		int dim;
+  		scanf(" N = %d\n", &n);
+  		//%d は整数を読み取るためのフォーマット指定子
+	  	long long mat[n*n];
+	  	bool isMinus = false;
+	  	for(int j=0; j<n*n; j++){
+	   		scanf("%lld", &mat[j]);
+	   		if (mat[j] < 0){
+	   			isMinus = true;
+	   		}
+	   		//%lld はlong long型の整数を読み取るためのフォーマット指定子
+	   	}
+	   	if(isMinus){
+	   		cout << "Test #" << i << ": Non-symmetric." << endl;
+	   		continue;
+	   	}
+
+	  	int index = n * n / 2;
+	  	bool isSym = true;
+	  	for(int k=0; k<index; k++){
+	   		if(mat[k] != mat[n * n - 1 - k]){
+	   			isSym = false;
+	    		break;
+	    	}
+	  	}
+	  
+	  	if(isSym){
+	  		cout << "Test #" << i << ": Symmetric." << endl;
+	  	}
+	  	else{
+	  		cout << "Test #" << i << ": Non-symmetric." << endl;
+	  	}
+ 	}
+ 	return 0;
+}

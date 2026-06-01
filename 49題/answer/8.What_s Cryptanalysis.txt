@@ -1,0 +1,65 @@
+3
+This is a test.
+Count me 1 2 3 4 5.
+Wow!!!! Is this question easy?
+
+-------------------------------------------------
+
+#include <iostream>
+#include <string>
+#include <map>
+#include <vector>
+
+using namespace std;
+
+int main() {
+    int testCase;
+    cin >> testCase;
+    cin.ignore(); //文字を一つ飛ばす = \nを飛ばす
+//getlineは改行文字を文字列の終端としてしまうため\nからの文字列が保存されてしまう
+    string textString;
+    map <char, int> frequancy;
+
+    for(int i = 0; i < testCase; i++){
+        getline(cin, textString); //一行すべてを読み取る
+        char alphaInText[textString.length() + 1];
+
+        for(int i = 0; i <= textString.length(); i++){
+            //cout << textString[i] << endl; //確認用
+            if(isalpha(textString[i])){
+                alphaInText[i] = toupper(textString[i]);
+                //cout << alphaInText[i] << endl; //確認用
+                frequancy[alphaInText[i]]++;
+            }
+        }
+    }
+
+    vector<char>alphabet;
+    vector<int>numOfAlpha;
+//indexで対応させるときは配列かベクター
+
+    for (auto i : frequancy){
+        alphabet.push_back(i.first); //kayを保存
+        numOfAlpha.push_back(i.second); //valueを保存
+    }
+
+    int currentNum;
+    int indexOfmax;
+
+    for(int j = 0; j < numOfAlpha.size(); j++){
+        int maxNum = numOfAlpha[0];
+        indexOfmax = 0;
+        for (int i = 1; i < numOfAlpha.size(); i++){
+            currentNum = numOfAlpha[i];
+            if (maxNum < currentNum){
+                maxNum = currentNum;
+                indexOfmax = i;
+            }
+        }
+        cout << alphabet[indexOfmax] << " " << numOfAlpha[indexOfmax] << endl;
+        numOfAlpha[indexOfmax] = -1;
+    }
+
+
+    return 0;
+}

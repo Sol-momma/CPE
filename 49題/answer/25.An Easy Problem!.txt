@@ -1,0 +1,72 @@
+??25.An Easy Problem!
+
+N進数でABCは
+A*N^2 + B*N + C これがN-1で割り切れるNを求める
+
+この式を変形すると
+A{N(N-1) + N} + B{(N-1) + 1} + C
+= AN(N-1) + AN + B(N-1) + B + C
+= AN(N-1) + A{(N-1) + 1} + B(N-1) + B + C
+= AN(N-1) + A(N-1) + AN + B(N-1) + B + C
+= (N-1)(AN + A + B) + A + B + C
+
+A + B + C が N-1 で割り切れるNを求める
+
+------------------------------------
+
+#include <iostream>
+#include <string>
+#include <cctype>
+
+using namespace std;
+
+int main(){
+	string integer;
+	while(getline(cin, integer)){
+		int temp = 0;
+		int sum = 0;
+		int base = 1;
+		bool isMinus = false;
+		
+		for(int i = 0; i < integer.size(); i++){
+			if(isdigit(integer[i])){
+				temp = integer[i] - '0';
+			}
+			else if('A' <= integer[i] && integer[i] <= 'Z'){
+				temp = integer[i] - 'A' + 10;
+			}
+			else if('a' <= integer[i] && integer[i] <= 'z'){
+				temp = integer[i] - 'a' + 36;
+			}
+		
+			sum += temp;
+			
+			if(base < temp){
+				base = temp;
+			}
+		}
+
+		bool isPossible = false;
+		while(base <= sum && base + 1 <= 62){
+			if(sum % base == 0){
+				isPossible = true;
+				break;
+			}
+			else{
+				base++;
+			}
+		}
+		
+		if(sum == 0){
+			cout << 2 << endl;
+		}
+		else if(isPossible){
+			cout << base + 1 << endl;
+		}
+		else{
+			cout << "such number is impossible!" << endl;
+		}
+		sum = 0;
+	}
+	return 0;
+}

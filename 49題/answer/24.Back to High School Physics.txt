@@ -1,0 +1,32 @@
+24.Back to High School Physics
+
+変位を求める等加速度直線運動の公式は
+
+x = v0 * t + 1/2 * a * t^2
+
+変位 = 初速度 * 時間 + 1/2 * 加速度 * 時間^2
+
+-----------------------------------------------
+
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int main(){
+	double velo, time;
+	while(cin >> velo){
+		cin >> time;
+		
+		if(time != 0){
+			double twice = time * 2;
+			double acce = velo / time;
+			double ans = acce * twice * twice / 2;
+			cout << ans << endl;
+		}
+		else
+			cout << 0 << endl;
+	}
+
+	return 0;
+}

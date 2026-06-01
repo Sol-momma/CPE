@@ -1,0 +1,31 @@
+22.Square Numbers
+
+#include <iostream>
+
+using namespace std;
+
+int main(){
+	int first, last;
+	
+	cin >> first >> last;
+	while(first != 0 && last != 0){
+		cout << flush;
+		int ans = 0;
+		int square;
+		int integer = 1;
+		while(true){
+			square = integer * integer;
+			if(first <= square && square <= last){
+				ans++;
+			}
+			else if(square > last){
+				cout << ans << endl;
+				break;
+			}
+			integer++;
+		}
+		cin >> first >> last;
+	}
+
+	return 0;
+}

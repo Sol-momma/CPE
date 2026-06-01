@@ -1,0 +1,37 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    unsigned int firstNum, secondNum; //string でもできたけど問題文に従う
+    while (true){
+        int carry = 0;
+        cin >> firstNum >> secondNum;
+        if (firstNum == 0 && secondNum == 0)
+            break;
+
+        int addedNum = 0;
+        while (firstNum != 0 || secondNum != 0){　//&&じゃなくて|| : 桁数が違うとき
+            int sum = (firstNum % 10) + (secondNum % 10) + addedNum;
+            if (sum >= 10){
+                carry++;
+                addedNum = 1;
+            }
+            else
+                addedNum = 0;
+
+            firstNum /= 10;
+            secondNum /= 10;
+        }
+
+        if (carry == 0)
+            cout << "No carry operation." << endl;
+        else if (carry == 1)
+            cout << "1 carry operation." << endl;
+        else
+            cout << carry << " carry operations." << endl;
+    }
+
+
+    return 0;
+}

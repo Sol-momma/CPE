@@ -1,0 +1,66 @@
+16.What is the Probability!!
+
+
+0.166666
+0.833334
+
+1人目
+0.166666
+
+2人目
+0.833334 * 0.166666 = 0.138888 444444
+
+1人目 + 2人目 = 0.305554 444444
+
+1 / 305554 * 166666 = 1 * (166666 / 305554)
+
+求める番号の確率 / 確率の合計
+
+
+
+---------------------------------------
+
+
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+
+using namespace std;
+
+int main(){
+	int test;
+	cin >> test;
+	
+	for (int i = 0; i < test; i++){
+		int players;
+		double winProb;
+		int serial;
+		cin >> players >> winProb >> serial;
+	
+		if(winProb == 0){
+			cout << 0.0000 << endl;
+		}
+		else{
+			double ans = 0;
+			double loseProb = 1 - winProb;
+			double currentProb = 0;
+			double sumOfProb = 0;
+			double serialProb = 0;
+	
+			for (int j = 0; j < players; j++){
+				cout << flush;
+				currentProb = 0;
+				currentProb += winProb * pow(loseProb, j);
+				sumOfProb += currentProb;
+				if (j == serial - 1){
+					serialProb = currentProb;
+				}
+			}
+			
+			ans = serialProb / sumOfProb;
+			cout << fixed << setprecision(4) << ans << endl;
+		}
+	}
+	
+	return 0;
+}

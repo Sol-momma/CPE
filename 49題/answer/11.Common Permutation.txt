@@ -1,0 +1,53 @@
+Given two strings of lowercase letters, a and b, print the longest string x of lowercase letters such
+that there is a permutation of x that is a subsequence of a and there is a permutation of x that is a
+subsequence of b.
+
+与えられた二つの文字列aとbに対して、それらの共通の順列を見つけます。
+共通の順列とは、両方の文字列の文字を並べ替えて得られる順列のことです。
+文字の順序は異なっていても、文字の種類と数が同じである必要があります。
+最も長い共通の順列を見つけてください。
+
+pretty
+kitten
+の場合共通の順列はett
+
+まず二つの文字列をソートする
+eprtty
+eikmtt
+
+共通部分を抜き出す
+ett
+
+----------------------------------------------------------------------
+
+#include <iostream>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    string a, b;
+    while (getline(cin, a) && getline(cin, b)) {
+        string commonPermutation = "";
+
+        sort(a.begin(), a.end());
+        sort(b.begin(), b.end());
+        
+        int i = 0, j = 0;
+        while (i < a.length() && j < b.length()) {
+            if (a[i] == b[j]) {
+                commonPermutation += a[i];
+                i++;
+                j++;
+            } else if (a[i] < b[j]) {
+                i++; //すでにソートされてるから次の字に移る
+            } else {
+                j++;
+            }
+        }
+        
+        cout << commonPermutation << endl;
+    }
+    return 0;
+}
+

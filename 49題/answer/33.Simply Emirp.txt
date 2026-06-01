@@ -1,0 +1,62 @@
+33.Simply Emirp
+
+#include <iostream>
+#include <string>
+#include <cmath>
+
+using namespace std;
+
+
+
+int main(){
+	string n;
+	while(cin >> n){
+		bool isPrime = true;
+		bool isEmi = true;
+		int len = n.length();
+		int num = 0;
+		int temp, power;
+		for(int i = len - 1; i >= 0; i--){
+			temp = n[i] - '0';
+			power = round(pow(10, len - 1 - i));
+			num += temp * power;
+		}
+		for(int i = 2; i < num; i++){
+			if(num % i == 0){
+				isPrime = false;
+				isEmi = false;
+			}
+		}
+		
+		int reverse = 0;
+		if(isPrime){
+			for(int i = 0; i < len; i++){
+				temp = n[i] - '0';
+				power = round(pow(10, i));
+				reverse += temp * power;
+			}
+			
+			if(reverse == num){
+				isEmi = false;
+			}
+			else{
+				for(int i = 2; i < reverse; i++){
+					if(reverse % i == 0){
+						isEmi = false;
+					}
+				}
+			}
+		}
+		
+		if(isEmi){
+			cout << n << " is emirp." << endl;
+		}
+		else if(isPrime){
+			cout << n << " is prime." << endl;
+		}
+		else{
+			cout << n << " is not prime." << endl;
+		}
+	}
+	return 0;
+}

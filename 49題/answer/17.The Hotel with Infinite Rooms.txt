@@ -1,0 +1,20 @@
+17.The Hotel with Infinite Rooms
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	long long int size;
+	long long int dthDay;
+	while(cin >> size && cin >> dthDay){
+		long long int current = 0;
+		while(current < dthDay){
+			current += size;
+			++size;
+		}
+		cout << size - 1 << endl;
+	}
+	return 0;
+}

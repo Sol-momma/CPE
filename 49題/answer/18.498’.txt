@@ -1,0 +1,64 @@
+18.498’
+
+getline()は改行の前までを読み取る
+複数行読み取る場合は前の行の改行を読み取ってしまわないように
+cin.ignore()を使う
+
+isdigit()
+isspace()
+を使うには<cctype>
+
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <cmath>
+#include <cctype>
+
+using namespace std;
+
+int main()
+{
+	int xValue;
+	string coeffi;
+	int ans = 0;
+
+	while(cin >> xValue){
+	
+		cin.ignore(); //getlineの前はignore()　
+        	getline(cin, coeffi);
+
+		vector<int> vec;
+		int numOfCo = 0;
+		int size = coeffi.size();
+		int val = 0;
+		int decimal = 0;
+		int num;
+		for(int i = size - 1; i >= 0; i--){
+			if(isspace(coeffi[i])){
+				vec.push_back(val);
+				numOfCo++;
+				val = 0;
+				decimal = 0;
+			}
+			else if(coeffi[i] == '-'){
+				val *= -1;
+			}
+			else{
+				num = coeffi[i] - '0';
+				val += num * pow(10, decimal);
+				decimal++;
+			}
+		}
+		vec.push_back(val);
+		numOfCo++;
+		
+		ans = 0;
+		for (int i = 1; i < numOfCo; i++){
+			ans += vec[i] * i * pow(xValue, i - 1);
+		}
+		cout << ans << endl;
+	}
+	
+	return 0;
+}

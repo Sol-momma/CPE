@@ -1,0 +1,67 @@
+31.All You Need Is Love
+timelimit で通ったり通らなかったりする
+
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int toDec(string bina){
+	int digit = bina.length();
+	int ans = 0;
+	for (int i = digit - 1; i >= 0; i--){
+		int temp = bina[i] - '0';
+		if(temp == 1){
+			ans += pow(2, digit - 1 - i);
+		}
+	}
+	return ans;
+}
+
+void devide(vector<int> &vec, int num){
+	for(int i = 2; i <= num; i++){
+		if(num % i == 0){
+			vec.push_back(i);
+		}
+	}
+}
+
+int main(){
+	int test;
+	cin >> test;
+	cin.ignore();
+	for(int i = 0; i < test; i++){
+		string fir, sec;
+		getline(cin, fir);
+		getline(cin, sec);
+		
+		int firDec = toDec(fir);
+		int secDec = toDec(sec);
+		int diff = abs(firDec - secDec);
+		if(diff == 0){
+			cout << "Pair #" << i + 1 << ": All you need is love!" << endl;
+			continue;
+		}
+
+		vector<int> diffVec;
+		devide(diffVec, diff);
+		
+		bool flag = false;
+		for(auto comp : diffVec){
+			if(firDec % comp == 0){
+				flag = true;
+				break;
+			}
+		}
+
+		if(flag){
+			cout << "Pair #" << i + 1 << ": All you need is love!" << endl;
+		}
+		else{
+			cout << "Pair #" << i + 1 << ": Love is not all you need!" << endl;
+		}
+	}	
+	return 0;
+}

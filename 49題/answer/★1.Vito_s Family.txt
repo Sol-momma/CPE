@@ -1,0 +1,49 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+
+    int testCase;
+    cin >> testCase;
+    int answer[testCase];
+
+    for (int i = 0; i < testCase; i++){
+        int numOfRelatives;
+        cin >> numOfRelatives;
+        int streetNum[numOfRelatives] = {0};
+
+        for (int j = 0; j < numOfRelatives; j++){
+            cin >> streetNum[j];
+        }
+
+        int lagestNum = streetNum[0];
+        int leastNum = streetNum[0];
+        for (int k = 1; k < numOfRelatives; k++){
+            if (streetNum[k] > lagestNum)
+                lagestNum = streetNum[k];
+            else
+                leastNum = streetNum[k];
+        }
+
+        int minSum = 15000000;
+        for (int l = leastNum; l <= lagestNum; l++){
+            int sumOfDistance = 0;
+            for (int m = 0; m < numOfRelatives; m++){
+                sumOfDistance += abs(l - streetNum[m]);
+            }
+            if(minSum > sumOfDistance)
+                minSum = sumOfDistance;
+        }
+
+        answer[i] = minSum;
+
+    }
+
+    for (int i = 0; i < testCase; i++){
+        cout << answer[i] << endl;
+    }
+
+
+    return 0;
+}

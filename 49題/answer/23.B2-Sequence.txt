@@ -1,0 +1,48 @@
+23.B2-Sequence
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main(){
+	int test;
+	int num = 0;
+	while(cin >> test){
+		num++;
+		vector<int> sums;
+		int elem;
+		int arr[test];
+		
+		for(int i = 0; i < test; i++){
+			cin >> elem;
+			arr[i] = elem;
+		}
+		
+		for(int i = 0; i < test - 1; i++){
+			for(int j = i + 1; j < test; j++){
+				sums.push_back(arr[i] + arr[j]);
+			}
+		}
+		
+		bool isB2 = true;
+		for(int i = 0; i < sums.size() - 1; i++){
+			for(int j = i + 1; j < sums.size(); j++){
+				if(sums[i] == sums[j]){
+					isB2 = false;
+					break;
+				}
+			}
+			if(!isB2)
+				break;
+		}
+		
+		if (isB2){
+			cout <<"Case #" << num << ": It is a B2-Sequence." << endl << endl;
+		}
+		else{
+			cout <<"Case #" << num << ": It is not a B2-Sequence." << endl << endl;
+		}
+	}
+	return 0;
+}

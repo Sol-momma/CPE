@@ -1,0 +1,50 @@
+なんで違うの
+
+#include <iostream>
+
+using namespace std;
+
+int main() {
+
+    int numOfSeq;
+    cin >> numOfSeq;
+    int sequence[numOfSeq] = {0};
+    int ifJolly [numOfSeq - 1] = {0};
+    int countUp = 1;
+
+    for(int i = 0; i < numOfSeq; i ++){
+        int inputNum;
+        cin >> inputNum;
+        sequence[i] = inputNum;
+        if (i != numOfSeq - 1){
+            ifJolly[i] = countUp;
+            countUp++;
+        }
+    }
+
+   bool isJolly = false;
+
+    for (int j = 0; j < numOfSeq - 1; j++){
+        int diff = abs(sequence[j] - sequence[j + 1]);
+
+        isJolly = false;
+        for (int k = 0; k < numOfSeq - 1; k++){
+            if (diff == ifJolly[k]){
+                isJolly = true;
+                ifJolly[k] = -1;
+            }
+        }
+
+        if (!isJolly){
+            cout << "Not jolly" << endl;
+            break;
+        }
+
+    }
+
+    if (isJolly)
+        cout << "Jolly" << endl;
+
+
+    return 0;
+}

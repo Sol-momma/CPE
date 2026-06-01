@@ -1,0 +1,29 @@
+19.Odd Sum
+
+#include <iostream>
+
+using namespace std;
+
+int main(){
+	int test;
+	cin >> test;
+	
+	int a, b;
+	
+	for(int i = 0; i < test; i++){
+		cin >> a;
+		cin >> b;
+		int ans = 0;
+		
+		if(a % 2 == 0){
+			a++;
+		}
+		
+		for(int j = a; j <= b; j += 2){
+			ans += j;
+		}
+		
+		cout << "Case " << i + 1 << ": " << ans << endl;
+	}
+	return 0;
+}

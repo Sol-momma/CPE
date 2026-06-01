@@ -1,0 +1,45 @@
+32.Divide But Not Quite Conquer
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main(){
+	int n, m;
+	while(cin >> n >> m){
+		int num = n;
+		vector<int> vec;
+		
+		bool isbor = false;
+		if(n == 0 || n == 1){
+			isbor = true;
+		}
+		while(n > 1){
+			if(m == 0 || m == 1){
+				isbor = true;
+				break;
+			}
+			if(n % m == 0){
+				vec.push_back(n / m);
+				n /= m;
+			}
+			else{
+				isbor = true;
+				break;
+			}
+		}
+		
+		if(!isbor){
+			cout << num;
+			for(auto a : vec){
+				cout << " " << a;
+			}
+		}
+		else{
+			cout << "Boring!";
+		}
+		cout << endl;
+	}
+	return 0;
+}

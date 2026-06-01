@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CPE 試験対策</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #09090e;
+  --surface: #111118;
+  --surface-hover: #18181f;
+  --border: #1f1f2e;
+  --border-hover: #2e2e45;
+  --text: #ddddf0;
+  --text-muted: #55557a;
+  --text-sub: #8888aa;
+
+  --basics:     #5b9cf6;
+  --strings:    #b57af5;
+  --numbase:    #34d399;
+  --primes:     #fbbf24;
+  --geometry:   #38bdf8;
+  --sorting:    #f87171;
+  --simulation: #f472b6;
+}
+
+html { font-size: 14px; scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, 'Noto Sans JP', sans-serif;
+  min-height: 100vh;
+  background-image:
+    linear-gradient(rgba(31,31,46,0.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(31,31,46,0.4) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── Header ── */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(9, 9, 14, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 28px 0;
+}
+
+.header-inner {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.logo {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text);
+}
+
+.logo-accent {
+  background: linear-gradient(90deg, #5b9cf6, #b57af5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-sub {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.progress-meta {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.progress-meta strong {
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.progress-pct {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* Progress bar */
+.progress-bar-wrap {
+  height: 3px;
+  background: var(--border);
+  margin: 0 -28px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #5b9cf6 0%, #b57af5 35%, #34d399 65%, #fbbf24 100%);
+  background-size: 200% 100%;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
+}
+
+/* ── Filters ── */
+.filters {
+  display: flex;
+  gap: 6px;
+  padding: 10px 28px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--border);
+  scrollbar-width: none;
+  background: rgba(9,9,14,0.8);
+}
+.filters::-webkit-scrollbar { display: none; }
+
+.filter-btn {
+  flex-shrink: 0;
+  padding: 4px 14px;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.filter-btn:hover {
+  color: var(--text);
+  border-color: var(--border-hover);
+  background: var(--surface-hover);
+}
+
+.filter-btn.active { font-weight: 600; }
+.filter-btn[data-cat="all"].active    { color: var(--text); border-color: #444; background: var(--surface); }
+.filter-btn[data-cat="basics"].active    { color: var(--basics);     border-color: var(--basics);     background: rgba(91,156,246,.08); }
+.filter-btn[data-cat="strings"].active   { color: var(--strings);    border-color: var(--strings);    background: rgba(181,122,245,.08); }
+.filter-btn[data-cat="numbase"].active   { color: var(--numbase);    border-color: var(--numbase);    background: rgba(52,211,153,.08); }
+.filter-btn[data-cat="primes"].active    { color: var(--primes);     border-color: var(--primes);     background: rgba(251,191,36,.08); }
+.filter-btn[data-cat="geometry"].active  { color: var(--geometry);   border-color: var(--geometry);   background: rgba(56,189,248,.08); }
+.filter-btn[data-cat="sorting"].active   { color: var(--sorting);    border-color: var(--sorting);    background: rgba(248,113,113,.08); }
+.filter-btn[data-cat="simulation"].active{ color: var(--simulation); border-color: var(--simulation); background: rgba(244,114,182,.08); }
+
+/* ── Main ── */
+main {
+  padding: 24px 28px 60px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* ── Category section ── */
+.cat-section { margin-bottom: 36px; }
+
+.cat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.cat-pip {
+  width: 6px; height: 20px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.cat-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-sub);
+}
+
+.cat-progress-text {
+  font-family: 'Courier New', monospace;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.cat-mini-bar {
+  width: 60px;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.cat-mini-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+/* ── Cards grid ── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 8px;
+}
+
+/* ── Problem card ── */
+.problem-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px 12px;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+  animation: cardIn 0.3s ease both;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.problem-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  border-radius: 10px 0 0 10px;
+  transition: opacity 0.2s;
+}
+
+.problem-card[data-cat="basics"]::before     { background: var(--basics); }
+.problem-card[data-cat="strings"]::before    { background: var(--strings); }
+.problem-card[data-cat="numbase"]::before    { background: var(--numbase); }
+.problem-card[data-cat="primes"]::before     { background: var(--primes); }
+.problem-card[data-cat="geometry"]::before   { background: var(--geometry); }
+.problem-card[data-cat="sorting"]::before    { background: var(--sorting); }
+.problem-card[data-cat="simulation"]::before { background: var(--simulation); }
+
+.problem-card:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+
+.problem-card[data-cat="basics"]:hover     { box-shadow: 0 4px 20px rgba(91,156,246,.12); }
+.problem-card[data-cat="strings"]:hover    { box-shadow: 0 4px 20px rgba(181,122,245,.12); }
+.problem-card[data-cat="numbase"]:hover    { box-shadow: 0 4px 20px rgba(52,211,153,.12); }
+.problem-card[data-cat="primes"]:hover     { box-shadow: 0 4px 20px rgba(251,191,36,.12); }
+.problem-card[data-cat="geometry"]:hover   { box-shadow: 0 4px 20px rgba(56,189,248,.12); }
+.problem-card[data-cat="sorting"]:hover    { box-shadow: 0 4px 20px rgba(248,113,113,.12); }
+.problem-card[data-cat="simulation"]:hover { box-shadow: 0 4px 20px rgba(244,114,182,.12); }
+
+/* Done state */
+.problem-card.done {
+  opacity: 0.38;
+}
+.problem-card.done:hover { opacity: 0.55; }
+
+.done-badge {
+  position: absolute;
+  top: 10px; right: 12px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--numbase);
+  letter-spacing: 0.06em;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.problem-card.done .done-badge { opacity: 1; }
+
+/* Card content */
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.cpe-num {
+  font-family: 'Courier New', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.uva-num {
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+.card-title {
+  font-size: 0.855rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text);
+  margin-bottom: 12px;
+  padding-right: 8px;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pdf-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.68rem;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 3px 10px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  transition: all 0.15s;
+}
+
+.pdf-link:hover {
+  color: var(--text);
+  border-color: var(--border-hover);
+  background: var(--surface-hover);
+}
+
+/* Checkbox */
+.check-box {
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--border-hover);
+  border-radius: 5px;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+  background: transparent;
+  position: relative;
+}
+
+.check-box:hover {
+  border-color: var(--numbase);
+}
+
+.check-box:checked {
+  background: var(--numbase);
+  border-color: var(--numbase);
+}
+
+.check-box:checked::after {
+  content: '';
+  position: absolute;
+  left: 4px; top: 1.5px;
+  width: 5px; height: 9px;
+  border: 2px solid #09090e;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+/* Empty state */
+.empty-msg {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  padding: 48px 0;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">CPE <span class="logo-accent">49</span></div>
+    <div class="header-sub">試験対策</div>
+    <div class="progress-meta">
+      <strong id="done-count">0</strong>
+      <span>/ 49</span>
+      <span class="progress-pct" id="done-pct">(0%)</span>
+    </div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="prog-fill"></div>
+  </div>
+</header>
+
+<div class="filters">
+  <button class="filter-btn active" data-cat="all">すべて</button>
+  <button class="filter-btn" data-cat="basics">基礎</button>
+  <button class="filter-btn" data-cat="strings">文字列</button>
+  <button class="filter-btn" data-cat="numbase">進数変換</button>
+  <button class="filter-btn" data-cat="primes">素数・因数</button>
+  <button class="filter-btn" data-cat="geometry">幾何</button>
+  <button class="filter-btn" data-cat="sorting">ソート</button>
+  <button class="filter-btn" data-cat="simulation">シミュレーション</button>
+</div>
+
+<main id="main"></main>
+
+<script>
+const CATS = [
+  { id:'basics',     name:'基礎',              color:'#5b9cf6' },
+  { id:'strings',    name:'文字と文字列',       color:'#b57af5' },
+  { id:'numbase',    name:'進数変換',           color:'#34d399' },
+  { id:'primes',     name:'素数・因数・倍数',   color:'#fbbf24' },
+  { id:'geometry',   name:'幾何・座標',         color:'#38bdf8' },
+  { id:'sorting',    name:'ソート・中央値',     color:'#f87171' },
+  { id:'simulation', name:'シミュレーション',   color:'#f472b6' },
+];
+
+const PROBLEMS = [
+  // 基礎
+  {id:'CPE01',name:"Vito's Family",              uva:10041,cat:'basics',    pdf:"49題/00_基礎/CPE01 Vito'sFamily/10041.pdf"},
+  {id:'CPE02',name:"Hashmat the Brave Warrior",  uva:10055,cat:'basics',    pdf:"49題/00_基礎/CPE02 Hashmat the Brave Warrior/10055.pdf"},
+  {id:'CPE03',name:"Primary Arithmetic",         uva:10035,cat:'basics',    pdf:"49題/00_基礎/CPE03 Primary Arithmetic/10035.pdf"},
+  {id:'CPE04',name:"The 3n+1 problem",           uva:100,  cat:'basics',    pdf:"49題/00_基礎/CPE04 The 3n+1 problem/問題 100.pdf"},
+  {id:'CPE05',name:"You can say 11",             uva:10929,cat:'basics',    pdf:"49題/00_基礎/CPE05 You can say 11/10929.pdf"},
+  {id:'CPE06',name:"Bangla Numbers",             uva:10929,cat:'basics',    pdf:"49題/00_基礎/CPE06 Bangla Numbers/10929.pdf"},
+  {id:'CPE07',name:"List of Conquests",          uva:10420,cat:'basics',    pdf:"49題/00_基礎/CPE07 List of Conquests/10420.pdf"},
+  // 文字列
+  {id:'CPE08',name:"What's Cryptanalysis",       uva:10008,cat:'strings',   pdf:"49題/01_字元與字串/CPE08 What's Cryptanalysis/10008.pdf"},
+  {id:'CPE09',name:"Decode the Mad man",         uva:10222,cat:'strings',   pdf:"49題/01_字元與字串/CPE09 Decode the Mad man/10222.pdf"},
+  {id:'CPE10',name:"Summing Digits",             uva:11332,cat:'strings',   pdf:"49題/01_字元與字串/CPE10 Summing Digits/問題 11332.pdf"},
+  {id:'CPE11',name:"Common Permutation",         uva:10252,cat:'strings',   pdf:"49題/01_字元與字串/CPE11 Common Permutation/10252.pdf"},
+  {id:'CPE12',name:"Rotating Sentences",         uva:490,  cat:'strings',   pdf:"49題/01_字元與字串/CPE12 Rotating Sentences/問題490.pdf"},
+  {id:'CPE13',name:"TeX Quotes",                 uva:272,  cat:'strings',   pdf:"49題/01_字元與字串/CPE13/問題 272.pdf"},
+  {id:'CPE14',name:"Doom's Day Algorithm",       uva:12019,cat:'strings',   pdf:"49題/01_字元與字串/CPE14 A - Doom's Day Algorithm/12019.pdf"},
+  {id:'CPE15',name:"Jolly Jumpers",              uva:10038,cat:'strings',   pdf:"49題/01_字元與字串/CPE15 Jolly Jumpers/10038.pdf"},
+  {id:'CPE16',name:"What is the Probability!!",  uva:10056,cat:'strings',   pdf:"49題/01_字元與字串/CPE16 What is the Probability!!/10056.pdf"},
+  {id:'CPE17',name:"The Hotel with Infinite Rooms",uva:10170,cat:'strings', pdf:"49題/01_字元與字串/CPE17 The Hotel with Infinite Rooms/問題 10170.pdf"},
+  {id:'CPE18',name:"498'",                       uva:10268,cat:'strings',   pdf:"49題/01_字元與字串/CPE18 498'/問題 10268.pdf"},
+  {id:'CPE19',name:"Odd sum",                    uva:10783,cat:'strings',   pdf:"49題/01_字元與字串/CPE19 Odd sum/10783 (1).pdf"},
+  {id:'CPE20',name:"Beat the Spread!",           uva:10812,cat:'strings',   pdf:"49題/01_字元與字串/CPE20 Beat the Spread!/10812.pdf"},
+  {id:'CPE21',name:"Symmetric Matrix",           uva:11349,cat:'strings',   pdf:"49題/01_字元與字串/CPE21 Symmetric Matrix/11349.pdf"},
+  {id:'CPE22',name:"Square Numbers",             uva:11461,cat:'strings',   pdf:"49題/01_字元與字串/CPE22 Square Numbers/11461.pdf"},
+  {id:'CPE23',name:"B2-Sequence",                uva:11063,cat:'strings',   pdf:"49題/01_字元與字串/CPE23 B2-Sequence/11063.pdf"},
+  {id:'CPE24',name:"Back to High School Physics",uva:10071,cat:'strings',   pdf:"49題/01_字元與字串/CPE24 Back to High School Physics/10071.pdf"},
+  // 進数変換
+  {id:'CPE25',name:"An Easy Problem!",           uva:10093,cat:'numbase',   pdf:"49題/02_進位制轉換/CPE25/10093.pdf"},
+  {id:'CPE26',name:"Fibonaccimal Base",          uva:948,  cat:'numbase',   pdf:"49題/02_進位制轉換/CPE26/948.pdf"},
+  {id:'CPE27',name:"Funny Encryption Method",    uva:10019,cat:'numbase',   pdf:"49題/02_進位制轉換/CPE27 Funny Encryption Method/10019.pdf"},
+  {id:'CPE28',name:"Parity",                     uva:10931,cat:'numbase',   pdf:"49題/02_進位制轉換/CPE28 Parity/10931.pdf"},
+  {id:'CPE29',name:"Cheapest Base",              uva:11005,cat:'numbase',   pdf:"49題/02_進位制轉換/CPE29 Cheapest Base/問題 11005.pdf"},
+  // 素数
+  {id:'CPE30',name:"Hartals",                    uva:10050,cat:'primes',    pdf:"49題/03_質數、因數與倍數/CPE30 Hartals/10050.pdf"},
+  {id:'CPE31',name:"All You Need Is Love!",      uva:10193,cat:'primes',    pdf:"49題/03_質數、因數與倍數/CPE31 All You Need Is Love!/10193.pdf"},
+  {id:'CPE32',name:"Divide, But Not Quite Conquer!",uva:10190,cat:'primes', pdf:"49題/03_質數、因數與倍數/CPE32 Divide, But Not Quite Conquer!/10190.pdf"},
+  {id:'CPE33',name:"Simply Emirp",               uva:10235,cat:'primes',    pdf:"49題/03_質數、因數與倍數/CPE33/10235.pdf"},
+  {id:'CPE34',name:"2 the 9s",                   uva:10922,cat:'primes',    pdf:"49題/03_質數、因數與倍數/CPE34/10922.pdf"},
+  {id:'CPE35',name:"GCD",                        uva:11417,cat:'primes',    pdf:"49題/03_質數、因數與倍數/CPE35 GCD/11417.pdf"},
+  // 幾何
+  {id:'CPE36',name:"Largest Square",             uva:10908,cat:'geometry',  pdf:"49題/04_幾何與座標/CPE36 Largest Squrare/10908.pdf"},
+  {id:'CPE37',name:"Satellites",                 uva:10221,cat:'geometry',  pdf:"49題/04_幾何與座標/CPE37 Satellites/10221.pdf"},
+  {id:'CPE38',name:"Can You Solve It",           uva:10642,cat:'geometry',  pdf:"49題/04_幾何與座標/CPE38 Can You Solve It/問題 10642.pdf"},
+  {id:'CPE39',name:"Fourth Point !!",            uva:10242,cat:'geometry',  pdf:"49題/04_幾何與座標/CPE39 Fourth Point !!/10242.pdf"},
+  // ソート
+  {id:'CPE40',name:"A mid-summer night's dream", uva:10057,cat:'sorting',   pdf:"49題/05_排序與中位數/CPE40 A mid-summer night's dream/10057.pdf"},
+  {id:'CPE41',name:"Tell me the frequencies!",   uva:10062,cat:'sorting',   pdf:"49題/05_排序與中位數/CPE41 Tell me the frequencies!/10062.pdf"},
+  {id:'CPE42',name:"Train Swapping",             uva:299,  cat:'sorting',   pdf:"49題/05_排序與中位數/CPE42 Train Swapping/問題299.pdf"},
+  {id:'CPE43',name:"Hardwood Species",           uva:10226,cat:'sorting',   pdf:"49題/05_排序與中位數/CPE43 Hardwood Species/10226.pdf"},
+  {id:'CPE49',name:"Sort! Sort!! and Sort!!!",   uva:11321,cat:'sorting',   pdf:"49題/CPE49 Sort! Sort!! and Sort!!!/問題 11321.pdf"},
+  // シミュレーション
+  {id:'CPE44',name:"Minesweeper",                uva:10189,cat:'simulation',pdf:"49題/06_模擬/CPE44 Minesweeper/10189.pdf"},
+  {id:'CPE45',name:"Die Game",                   uva:10409,cat:'simulation',pdf:"49題/06_模擬/CPE45 Die Game/10409.pdf"},
+  {id:'CPE46',name:"Eb Alto Saxophone Player",   uva:10415,cat:'simulation',pdf:"49題/06_模擬/CPE46 Eb Alto Saxophone Player/問題10415.pdf"},
+  {id:'CPE47',name:"Mutant Flatworld Explorers", uva:118,  cat:'simulation',pdf:"49題/06_模擬/CPE47Mutant Flatworld Explorers/Problem 118.pdf"},
+  {id:'CPE48',name:"Cola",                       uva:11150,cat:'simulation',pdf:"49題/06_模擬/CPE48 Cola/11150.pdf"},
+];
+
+const KEY = 'cpe49_done';
+let activeFilter = 'all';
+
+function getDone() {
+  try { return new Set(JSON.parse(localStorage.getItem(KEY)) || []); }
+  catch { return new Set(); }
+}
+
+function setDone(set) {
+  localStorage.setItem(KEY, JSON.stringify([...set]));
+}
+
+function updateProgress() {
+  const done = getDone();
+  const n = done.size;
+  const pct = Math.round(n / 49 * 100);
+  document.getElementById('done-count').textContent = n;
+  document.getElementById('done-pct').textContent = `(${pct}%)`;
+  document.getElementById('prog-fill').style.width = (n / 49 * 100) + '%';
+}
+
+function render() {
+  const done = getDone();
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+
+  const catsToShow = activeFilter === 'all'
+    ? CATS
+    : CATS.filter(c => c.id === activeFilter);
+
+  if (catsToShow.length === 0) {
+    main.innerHTML = '<p class="empty-msg">問題が見つかりません</p>';
+    return;
+  }
+
+  catsToShow.forEach(cat => {
+    const probs = PROBLEMS.filter(p => p.cat === cat.id);
+    const solvedN = probs.filter(p => done.has(p.id)).length;
+    const pct = probs.length ? (solvedN / probs.length * 100) : 0;
+
+    const sec = document.createElement('section');
+    sec.className = 'cat-section';
+    sec.id = 'cat-' + cat.id;
+    sec.innerHTML = `
+      <div class="cat-header">
+        <div class="cat-pip" style="background:${cat.color}"></div>
+        <span class="cat-label">${cat.name}</span>
+        <div class="cat-mini-bar">
+          <div class="cat-mini-fill" style="width:${pct}%;background:${cat.color}"></div>
+        </div>
+        <span class="cat-progress-text" id="cprog-${cat.id}">${solvedN}/${probs.length}</span>
+      </div>
+      <div class="cards-grid" id="grid-${cat.id}"></div>
+    `;
+    main.appendChild(sec);
+
+    const grid = sec.querySelector('.cards-grid');
+    probs.forEach((p, i) => {
+      const isDone = done.has(p.id);
+      const card = document.createElement('div');
+      card.className = 'problem-card' + (isDone ? ' done' : '');
+      card.dataset.cat = p.cat;
+      card.style.animationDelay = (i * 0.03) + 's';
+
+      const safeHref = encodeURI(p.pdf);
+      card.innerHTML = `
+        <div class="done-badge">DONE</div>
+        <div class="card-top">
+          <span class="cpe-num">${p.id}</span>
+          <span class="uva-num">UVa&nbsp;${p.uva}</span>
+        </div>
+        <div class="card-title">${p.name}</div>
+        <div class="card-footer">
+          <a class="pdf-link" href="${safeHref}" target="_blank">PDF</a>
+          <input type="checkbox" class="check-box" ${isDone ? 'checked' : ''} data-id="${p.id}">
+        </div>
+      `;
+
+      const cb = card.querySelector('.check-box');
+      const pdfLink = card.querySelector('.pdf-link');
+
+      cb.addEventListener('click', e => e.stopPropagation());
+      cb.addEventListener('change', e => {
+        const set = getDone();
+        if (e.target.checked) set.add(p.id); else set.delete(p.id);
+        setDone(set);
+        card.classList.toggle('done', e.target.checked);
+        refreshCatProgress(cat, probs);
+        updateProgress();
+      });
+
+      pdfLink.addEventListener('click', e => e.stopPropagation());
+
+      card.addEventListener('click', () => {
+        cb.checked = !cb.checked;
+        cb.dispatchEvent(new Event('change'));
+      });
+
+      grid.appendChild(card);
+    });
+  });
+
+  updateProgress();
+}
+
+function refreshCatProgress(cat, probs) {
+  const done = getDone();
+  const n = probs.filter(p => done.has(p.id)).length;
+  const pct = probs.length ? n / probs.length * 100 : 0;
+  const el = document.getElementById('cprog-' + cat.id);
+  if (el) el.textContent = `${n}/${probs.length}`;
+  const fill = document.querySelector(`#cat-${cat.id} .cat-mini-fill`);
+  if (fill) fill.style.width = pct + '%';
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    activeFilter = btn.dataset.cat;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  });
+});
+
+render();
+</script>
+</body>
+</html>

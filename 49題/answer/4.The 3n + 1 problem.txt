@@ -1,0 +1,47 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    long long firstNum, secondNum;
+
+    while (cin >> firstNum >> secondNum){
+        int maxCycle = 0;
+        int lagerNum, smallerNum;
+
+        if (firstNum < secondNum){
+            lagerNum = secondNum;
+            smallerNum = firstNum;
+        }
+        else {
+            lagerNum = firstNum;
+            smallerNum = secondNum;
+        }
+
+        for (int i = smallerNum; i <= lagerNum; i++){
+            long long currentNum = i;
+            long long cycleLength = 1;
+
+            while (true){
+
+                if (currentNum == 1)
+                    break;
+
+                if (currentNum % 2 != 0){
+                    currentNum = currentNum * 3 + 1;
+                    cycleLength++;
+                }
+                else {
+                    currentNum = currentNum / 2;
+                    cycleLength++;
+                }
+            }
+
+            if (maxCycle < cycleLength)
+                maxCycle = cycleLength;
+        }
+        cout << firstNum << " " << secondNum << " " << maxCycle << endl;
+    }
+
+    return 0;
+}

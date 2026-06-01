@@ -1,0 +1,47 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+
+    unsigned long long integer;
+    unsigned long long sumOfDigits = 0;
+    unsigned long long currentInt;
+
+    while (true){
+        sumOfDigits = 0; //初期化
+        cin >> integer;
+
+        if (integer == 0)
+            break;
+        else {
+            if (integer / 10 == 0){
+            cout << integer << endl;
+            }
+            else{
+                currentInt = integer;
+                while (true){
+                    while (true){
+                        sumOfDigits += currentInt % 10; //1の位から順に足す
+
+                        if (currentInt / 10 == 0) //もし最後の一桁だったら
+                            break;
+                        else
+                            currentInt /= 10;
+                    }
+                    if (sumOfDigits >= 10){
+                        currentInt = sumOfDigits;
+                        sumOfDigits = 0;
+                    }
+                    else
+                        break;
+                }
+                cout << sumOfDigits << endl;
+            }
+        }
+    }
+
+    return 0;
+}
+
