@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CPE 試験対策</title>
+<title>CPE PDF問題一覧</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -388,37 +388,433 @@ main {
   font-size: 0.8rem;
   padding: 48px 0;
 }
+
+/* ── PDF-first monochrome refresh ──
+   The page is intentionally reduced to one primary action: opening a problem PDF.
+   Existing category colors and completion controls are overridden so they cannot
+   compete with the document list or its large action buttons. */
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-hover: #f4f4f4;
+  --border: #d9d9d9;
+  --border-hover: #0a0a0a;
+  --text: #0a0a0a;
+  --text-muted: #777777;
+  --text-sub: #3d3d3d;
+}
+
+html {
+  background: #ffffff;
+}
+
+body {
+  background: #ffffff;
+  background-image: none;
+  color: #0a0a0a;
+  font-family: Arial, "Helvetica Neue", "Noto Sans JP", sans-serif;
+}
+
+header {
+  min-height: 66px;
+  padding: 0 40px;
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid #0a0a0a;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.header-inner {
+  min-height: 65px;
+  margin: 0;
+  align-items: center;
+  gap: 18px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: #0a0a0a;
+  font-family: Arial, "Helvetica Neue", sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+}
+
+.logo-accent {
+  padding-left: 14px;
+  border-left: 1px solid #0a0a0a;
+  background: none;
+  color: #0a0a0a;
+  -webkit-text-fill-color: currentColor;
+}
+
+.header-sub {
+  margin-left: auto;
+  color: #0a0a0a;
+  font-family: "Courier New", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+}
+
+main {
+  max-width: none;
+  padding: 0 40px 96px;
+}
+
+.hero {
+  padding: clamp(64px, 6.5vw, 92px) 0 clamp(68px, 7vw, 100px);
+  border-bottom: 1px solid #0a0a0a;
+  animation: heroIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-kicker {
+  margin-bottom: 22px;
+  font-family: "Courier New", monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.hero h1 {
+  max-width: 1200px;
+  font-size: clamp(4rem, 7vw, 7rem);
+  font-weight: 700;
+  line-height: 0.88;
+  letter-spacing: -0.075em;
+}
+
+.hero h1 span {
+  white-space: nowrap;
+}
+
+.hero-copy {
+  max-width: 520px;
+  margin-top: 30px;
+  color: #555555;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.filters {
+  position: sticky;
+  top: 66px;
+  z-index: 80;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid #0a0a0a;
+}
+
+.filter-btn {
+  min-height: 58px;
+  padding: 0 22px;
+  border: 0;
+  border-right: 1px solid #d9d9d9;
+  border-radius: 0;
+  background: transparent;
+  color: #777777;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.filter-btn:hover {
+  border-color: #d9d9d9;
+  background: #f1f1f1;
+  color: #0a0a0a;
+}
+
+body .filter-btn.active {
+  border-color: #0a0a0a !important;
+  background: #0a0a0a !important;
+  color: #ffffff !important;
+}
+
+#problem-list {
+  min-height: 50vh;
+}
+
+.cat-section {
+  margin: 0;
+}
+
+.cat-header {
+  margin: 0;
+  padding: 76px 0 20px;
+  border-bottom: 2px solid #0a0a0a;
+}
+
+.cat-label {
+  color: #0a0a0a;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+
+.cat-progress-text {
+  margin-left: auto;
+  color: #555555;
+  font-family: "Courier New", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+}
+
+.cards-grid {
+  display: block;
+}
+
+.problem-card {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr) 176px;
+  align-items: center;
+  gap: 24px;
+  min-height: 112px;
+  padding: 20px 0;
+  overflow: visible;
+  border: 0;
+  border-bottom: 1px solid #d9d9d9;
+  border-radius: 0;
+  background: #ffffff;
+  color: #0a0a0a;
+  text-decoration: none;
+  transition: background 0.18s ease, padding 0.18s ease;
+  animation: rowIn 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.problem-card::before {
+  display: none;
+}
+
+.problem-card:hover {
+  padding-right: 10px;
+  padding-left: 10px;
+  border-color: #0a0a0a;
+  background: #f3f3f3;
+  box-shadow: none !important;
+  transform: none;
+}
+
+.problem-card:focus-visible {
+  outline: 3px solid #0a0a0a;
+  outline-offset: 3px;
+}
+
+@keyframes rowIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.cpe-num {
+  color: #555555;
+  font-family: "Courier New", monospace;
+  font-size: 0.76rem;
+  letter-spacing: 0.05em;
+}
+
+.problem-info {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  min-width: 0;
+}
+
+.card-title {
+  margin: 0;
+  padding: 0;
+  color: #0a0a0a;
+  font-size: clamp(1.1rem, 2vw, 1.55rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+
+.uva-num {
+  flex-shrink: 0;
+  margin: 0;
+  color: #777777;
+  font-family: "Courier New", monospace;
+  font-size: 0.7rem;
+}
+
+.pdf-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 176px;
+  min-height: 58px;
+  padding: 0 20px;
+  border: 1px solid #0a0a0a;
+  border-radius: 0;
+  background: #0a0a0a;
+  color: #ffffff;
+  font-family: Arial, "Helvetica Neue", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.pdf-link span {
+  font-size: 1.35rem;
+  font-weight: 400;
+  transition: transform 0.18s ease;
+}
+
+.problem-card:hover .pdf-link {
+  background: #ffffff;
+  color: #0a0a0a;
+}
+
+.problem-card:hover .pdf-link span {
+  transform: translate(3px, -3px);
+}
+
+@media (max-width: 720px) {
+  header {
+    min-height: 60px;
+    padding: 0 20px;
+  }
+
+  .header-inner {
+    min-height: 59px;
+  }
+
+  .logo {
+    gap: 10px;
+    font-size: 0.72rem;
+  }
+
+  .logo-accent {
+    padding-left: 10px;
+  }
+
+  .header-sub {
+    font-size: 0.62rem;
+  }
+
+  main {
+    padding: 0 20px 72px;
+  }
+
+  .hero {
+    padding: 72px 0 80px;
+  }
+
+  .hero-kicker {
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-size: clamp(3rem, 13vw, 4rem);
+    line-height: 0.92;
+  }
+
+  .hero-copy {
+    margin-top: 32px;
+    font-size: 0.9rem;
+  }
+
+  .filters {
+    top: 60px;
+    margin: 0 -20px;
+    padding-left: 20px;
+  }
+
+  .filter-btn {
+    min-height: 54px;
+    padding: 0 18px;
+  }
+
+  .cat-header {
+    padding-top: 60px;
+  }
+
+  .problem-card {
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: 14px;
+    min-height: 0;
+    padding: 22px 0;
+  }
+
+  .problem-card:hover {
+    padding-right: 6px;
+    padding-left: 6px;
+  }
+
+  .problem-info {
+    display: block;
+  }
+
+  .card-title {
+    font-size: 1.15rem;
+  }
+
+  .uva-num {
+    display: inline-block;
+    margin-top: 8px;
+  }
+
+  .pdf-link {
+    grid-column: 2;
+    width: 100%;
+    min-height: 56px;
+    margin-top: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero,
+  .problem-card {
+    animation: none;
+  }
+  .problem-card,
+  .pdf-link,
+  .pdf-link span {
+    transition: none;
+  }
+}
 </style>
 </head>
 <body>
 
 <header>
   <div class="header-inner">
-    <div class="logo">CPE <span class="logo-accent">49</span></div>
-    <div class="header-sub">PDF問題一覧</div>
-    <div class="progress-meta">
-      <strong id="done-count">0</strong>
-      <span>/ 49</span>
-      <span class="progress-pct" id="done-pct">(0%)</span>
-    </div>
-  </div>
-  <div class="progress-bar-wrap">
-    <div class="progress-bar-fill" id="prog-fill"></div>
+    <a class="logo" href="#">CPE <span class="logo-accent">PDF ARCHIVE</span></a>
+    <div class="header-sub">49 PROBLEMS</div>
   </div>
 </header>
 
-<div class="filters">
-  <button class="filter-btn active" data-cat="all">すべて</button>
-  <button class="filter-btn" data-cat="basics">基礎</button>
-  <button class="filter-btn" data-cat="strings">文字列</button>
-  <button class="filter-btn" data-cat="numbase">進数変換</button>
-  <button class="filter-btn" data-cat="primes">素数・因数</button>
-  <button class="filter-btn" data-cat="geometry">幾何</button>
-  <button class="filter-btn" data-cat="sorting">ソート</button>
-  <button class="filter-btn" data-cat="simulation">シミュレーション</button>
-</div>
+<main>
+  <section class="hero" aria-labelledby="page-title">
+    <p class="hero-kicker">CPE 49 / PDF COLLECTION</p>
+    <h1 id="page-title"><span>問題を選んで、</span><br><span>PDFを開く。</span></h1>
+    <p class="hero-copy">CPE対策49問の問題文を、カテゴリ別にまとめています。</p>
+  </section>
 
-<main id="main"></main>
+  <nav class="filters" aria-label="問題カテゴリ">
+    <button class="filter-btn active" data-cat="all" aria-pressed="true">すべて</button>
+    <button class="filter-btn" data-cat="basics" aria-pressed="false">基礎</button>
+    <button class="filter-btn" data-cat="strings" aria-pressed="false">文字列</button>
+    <button class="filter-btn" data-cat="numbase" aria-pressed="false">進数変換</button>
+    <button class="filter-btn" data-cat="primes" aria-pressed="false">素数・因数</button>
+    <button class="filter-btn" data-cat="geometry" aria-pressed="false">幾何</button>
+    <button class="filter-btn" data-cat="sorting" aria-pressed="false">ソート</button>
+    <button class="filter-btn" data-cat="simulation" aria-pressed="false">シミュレーション</button>
+  </nav>
+
+  <div id="problem-list"></div>
+</main>
 
 <script>
 const CATS = [
@@ -490,125 +886,68 @@ const PROBLEMS = [
   {id:'CPE48',name:"Cola",                       uva:11150,cat:'simulation',pdf:"49題/06_模擬/CPE48 Cola/Cola.pdf"},
 ];
 
-const KEY = 'cpe49_done';
 let activeFilter = 'all';
 
-function getDone() {
-  try { return new Set(JSON.parse(localStorage.getItem(KEY)) || []); }
-  catch { return new Set(); }
-}
-
-function setDone(set) {
-  localStorage.setItem(KEY, JSON.stringify([...set]));
-}
-
-function updateProgress() {
-  const done = getDone();
-  const n = done.size;
-  const pct = Math.round(n / 49 * 100);
-  document.getElementById('done-count').textContent = n;
-  document.getElementById('done-pct').textContent = `(${pct}%)`;
-  document.getElementById('prog-fill').style.width = (n / 49 * 100) + '%';
-}
-
 function render() {
-  const done = getDone();
-  const main = document.getElementById('main');
-  main.innerHTML = '';
+  const list = document.getElementById('problem-list');
+  list.innerHTML = '';
 
   const catsToShow = activeFilter === 'all'
     ? CATS
     : CATS.filter(c => c.id === activeFilter);
 
   if (catsToShow.length === 0) {
-    main.innerHTML = '<p class="empty-msg">問題が見つかりません</p>';
+    list.innerHTML = '<p class="empty-msg">問題が見つかりません</p>';
     return;
   }
 
   catsToShow.forEach(cat => {
     const probs = PROBLEMS.filter(p => p.cat === cat.id);
-    const solvedN = probs.filter(p => done.has(p.id)).length;
-    const pct = probs.length ? (solvedN / probs.length * 100) : 0;
 
     const sec = document.createElement('section');
     sec.className = 'cat-section';
     sec.id = 'cat-' + cat.id;
     sec.innerHTML = `
       <div class="cat-header">
-        <div class="cat-pip" style="background:${cat.color}"></div>
         <span class="cat-label">${cat.name}</span>
-        <div class="cat-mini-bar">
-          <div class="cat-mini-fill" style="width:${pct}%;background:${cat.color}"></div>
-        </div>
-        <span class="cat-progress-text" id="cprog-${cat.id}">${solvedN}/${probs.length}</span>
+        <span class="cat-progress-text">${String(probs.length).padStart(2, '0')} PDFs</span>
       </div>
       <div class="cards-grid" id="grid-${cat.id}"></div>
     `;
-    main.appendChild(sec);
+    list.appendChild(sec);
 
     const grid = sec.querySelector('.cards-grid');
     probs.forEach((p, i) => {
-      const isDone = done.has(p.id);
-      const card = document.createElement('div');
-      card.className = 'problem-card' + (isDone ? ' done' : '');
+      const card = document.createElement('a');
+      card.className = 'problem-card';
       card.dataset.cat = p.cat;
+      card.href = encodeURI(p.pdf);
+      card.target = '_blank';
+      card.rel = 'noopener';
+      card.setAttribute('aria-label', `${p.name}のPDFを開く`);
       card.style.animationDelay = (i * 0.03) + 's';
 
-      const safeHref = encodeURI(p.pdf);
       card.innerHTML = `
-        <div class="done-badge">DONE</div>
-        <div class="card-top">
-          <span class="cpe-num">${p.id}</span>
-          <span class="uva-num">UVa&nbsp;${p.uva}</span>
+        <span class="cpe-num">${p.id}</span>
+        <div class="problem-info">
+          <h2 class="card-title">${p.name}</h2>
+          <span class="uva-num">UVa ${p.uva}</span>
         </div>
-        <div class="card-title">${p.name}</div>
-        <div class="card-footer">
-          <a class="pdf-link" href="${safeHref}" target="_blank">PDF</a>
-          <input type="checkbox" class="check-box" ${isDone ? 'checked' : ''} data-id="${p.id}">
-        </div>
+        <span class="pdf-link">PDFを開く <span aria-hidden="true">↗</span></span>
       `;
-
-      const cb = card.querySelector('.check-box');
-      const pdfLink = card.querySelector('.pdf-link');
-
-      cb.addEventListener('click', e => e.stopPropagation());
-      cb.addEventListener('change', e => {
-        const set = getDone();
-        if (e.target.checked) set.add(p.id); else set.delete(p.id);
-        setDone(set);
-        card.classList.toggle('done', e.target.checked);
-        refreshCatProgress(cat, probs);
-        updateProgress();
-      });
-
-      pdfLink.addEventListener('click', e => e.stopPropagation());
-
-      card.addEventListener('click', () => {
-        cb.checked = !cb.checked;
-        cb.dispatchEvent(new Event('change'));
-      });
-
       grid.appendChild(card);
     });
   });
-
-  updateProgress();
-}
-
-function refreshCatProgress(cat, probs) {
-  const done = getDone();
-  const n = probs.filter(p => done.has(p.id)).length;
-  const pct = probs.length ? n / probs.length * 100 : 0;
-  const el = document.getElementById('cprog-' + cat.id);
-  if (el) el.textContent = `${n}/${probs.length}`;
-  const fill = document.querySelector(`#cat-${cat.id} .cat-mini-fill`);
-  if (fill) fill.style.width = pct + '%';
 }
 
 document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     activeFilter = btn.dataset.cat;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      const isActive = b === btn;
+      b.classList.toggle('active', isActive);
+      b.setAttribute('aria-pressed', String(isActive));
+    });
     btn.classList.add('active');
     render();
   });
