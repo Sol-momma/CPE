@@ -13,14 +13,21 @@ CPE（Computer Programming Examination）の過去問49問を C++ で解くた�
 ## ディレクトリ構造
 
 ```
+index.html, assets/, data/   # 学習ページ（GitHub Pages）。49問とCPE26選集を1ページで切り替える
+problems/                    # 問題文の画像（CPE49-01-1.png など）
 cpe49/
-  カテゴリフォルダ/
-    CPExx 問題名/
+  カテゴリフォルダ/            # 00_basics, 01_chars-and-strings, ...
+    CPE49-xx 問題名/
       問題.pdf          # 元の問題PDF
       md/問題.md        # Markdown変換済み（こちらを読む）
       uva*.java         # 他者のJava参考解答（参考のみ、気にしなくてよい）
+cpe26/                  # CPE26選集56問（CPE26-011_uva00272_TEX Quotes.pdf と md/）
+answers/                # C++解答 CPE49-xx.cpp / CPE26-xxx.cpp、samples/ にサンプル
+tests/                  # python3 tests/run.py CPE49-02
 done/                   # 解き終わった問題を移す（任意）
 ```
+
+**ID表記:** 49問は `CPE49-01`〜`CPE49-49`、CPE26選集は `CPE26-011`〜`CPE26-144`。名前（ディレクトリ・カテゴリ）は英語、見出しは English / 日本語 / 中文 の順。
 
 **PDF読み方針:** PDFは直接読まず、同階層の `md/` 内のMarkdownを参照する。
 

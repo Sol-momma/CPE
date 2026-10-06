@@ -1,56 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CPE 試験対策</title>
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root { --bg:#f6f7f4; --fg:#1d2420; --muted:#5d6b63; --line:#d5dbd6; --card:#fff; --accent:#1f6feb; }
-@media (prefers-color-scheme: dark) {
-  :root { --bg:#111513; --fg:#e8ece9; --muted:#9aa89f; --line:#2b352f; --card:#181e1b; --accent:#6aa5ff; }
-}
-body { background:var(--bg); color:var(--fg); font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",system-ui,sans-serif; line-height:1.7; }
-main { max-width:860px; margin:0 auto; padding:clamp(40px,8vw,88px) 20px 64px; }
-.kicker { font-family:"SF Mono",Menlo,monospace; font-size:.75rem; letter-spacing:.14em; color:var(--muted); }
-h1 { font-size:clamp(2rem,6vw,3rem); line-height:1.2; margin:8px 0 12px; }
-.lead { color:var(--muted); max-width:36em; }
-section { margin-top:44px; }
-h2 { font-size:1.15rem; display:flex; align-items:baseline; gap:10px; padding-bottom:8px; border-bottom:1px solid var(--line); }
-h2 small { font-size:.8rem; font-weight:400; color:var(--muted); }
-.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px; margin-top:16px; }
-a.card { display:block; padding:18px 18px 16px; background:var(--card); border:1px solid var(--line); border-radius:10px; color:inherit; text-decoration:none; transition:border-color .15s, transform .15s; }
-a.card:hover, a.card:focus-visible { border-color:var(--accent); transform:translateY(-2px); outline:none; }
-a.card b { display:block; font-size:1.05rem; }
-a.card span { display:block; margin-top:4px; font-size:.86rem; color:var(--muted); }
-a.card i { display:block; margin-top:10px; font-style:normal; font-size:.82rem; color:var(--accent); }
-footer { margin-top:56px; font-size:.78rem; color:var(--muted); }
-footer a { color:inherit; }
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CPE Study · CPE 学習 · CPE 學習</title>
+<meta name="description" content="CPE 49 and CPE26 Selection: problems, English statements with Japanese translation, vocabulary, sample I/O and C++ solutions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="assets/app.css">
 </head>
 <body>
-<main>
-  <div class="kicker">CPE / COMPUTER PROGRAMMING EXAMINATION</div>
-  <h1>CPE 試験対策</h1>
-  <p class="lead">UVa Online Judge の問題を C++ で解くための学習ページです。問題文のPDFを開くか、考え方の型・英語の問題文と日本語訳・解答コードを読みます。</p>
+<a class="skip" href="#main">Skip to content / 本文へ / 跳到內容</a>
 
-  <section>
-    <h2>CPE 49問 <small>これまでの過去問</small></h2>
-    <div class="cards">
-      <a class="card" href="cpe-patterns.html"><b>学習ページ</b><span>考え方の8つの型・簡単な順・英語の問題文と単語・解答コード</span><i>開く →</i></a>
-      <a class="card" href="cpe49.html"><b>問題PDF一覧</b><span>カテゴリ別に49問のPDFを開く</span><i>開く →</i></a>
-    </div>
-  </section>
+<header class="top" id="top">
+  <button type="button" class="drawer-btn" id="drawer-btn" aria-expanded="false" aria-controls="side" data-act="drawer">☰ <span class="t3 compact"><span class="en">List</span><span class="ja">一覧</span></span></button>
+  <div class="brand"><span class="logo">CPE</span><span class="t3 compact"><span class="en">Study</span><span class="ja">学習</span><span class="zh">學習</span></span></div>
+  <div class="seg" id="setseg" role="tablist" aria-label="Problem set / 問題セット"></div>
+  <div class="progress-mini" id="progress" aria-live="polite"></div>
+  <nav class="tabs" id="tabs" role="tablist" aria-label="View / 表示"></nav>
+</header>
 
-  <section>
-    <h2>CPE26選集 <small>2027年〜・56問</small></h2>
-    <div class="cards">
-      <a class="card" href="cpe26-patterns.html"><b>学習ページ</b><span>49問版と同じ形式。56問の英文・日本語訳・単語・解答コード</span><i>開く →</i></a>
-      <a class="card" href="cpe26.html"><b>問題PDF一覧</b><span>14カテゴリ・56問のPDFを開く</span><i>開く →</i></a>
-    </div>
-  </section>
+<div class="shell" id="shell">
+  <aside class="side" id="side" aria-label="Problem list / 問題一覧"></aside>
+  <main id="main" tabindex="-1"><p class="loading">Loading… / 読み込み中… / 載入中…</p></main>
+</div>
+<div class="scrim" id="scrim" data-act="drawer-close"></div>
 
-  <footer>CPE26選集の出典: <a href="https://cpe.mcu.edu.tw/cpelist.php">cpe.mcu.edu.tw/cpelist.php</a></footer>
-</main>
+<script src="data/types.js"></script>
+<script src="assets/app.js"></script>
+<noscript><p style="padding:24px">This page needs JavaScript. / このページは JavaScript が必要です。 / 此頁面需要 JavaScript。</p></noscript>
 </body>
 </html>

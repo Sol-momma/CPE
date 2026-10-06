@@ -6,12 +6,12 @@ UVa Online Judge の問題を C++ で解くことを目標にしています。
 
 ## ブラウザで見る
 
-- **学習ページ**: https://sol-momma.github.io/CPE/cpe-patterns.html
-  （考え方の8つの型・簡単な順・英語の問題文と日本語訳・単語リスト・サンプル・解答コード）
-- **ホーム**: https://sol-momma.github.io/CPE/
-- **問題PDF一覧**: https://sol-momma.github.io/CPE/cpe49.html
-- **CPE26選集 PDF一覧**: https://sol-momma.github.io/CPE/cpe26.html
-- **CPE26選集 学習ページ**: https://sol-momma.github.io/CPE/cpe26-patterns.html（56問・同じ形式）
+- **学習ページ（1ページ）**: https://sol-momma.github.io/CPE/
+  - 上部のタブで **CPE 49** と **CPE26選集** を切り替え。見出しは English / 日本語 / 中文 の順。
+  - **Problems**: 問題画像・単語・日本語訳・サンプル・解答コード。検索・型/難しさ/未解決での絞り込み・前へ/次へ（`←` `→` / `j` `k`）・解いた印（この端末のブラウザに保存）。
+  - **PDFs**: 元の問題PDFの一覧。
+  - **Patterns**: 解く前の5つの質問・8つの型・簡単な順。
+- URL は `#/<set>/<tab>/<ID>`（例: `#/26/problems/CPE26-044`）で、そのまま共有できます。
 
 ---
 
@@ -19,38 +19,43 @@ UVa Online Judge の問題を C++ で解くことを目標にしています。
 
 ```
 .
-├── cpe49/          # 過去問49問（カテゴリ別）
-│   ├── 00_basics/
-│   ├── 01_chars-and-strings/    （文字と文字列）
-│   ├── 02_number-bases/    （進数変換）
-│   ├── 03_primes-factors-multiples/ （素数・因数・倍数）
-│   ├── 04_geometry-coordinates/    （幾何・座標）
-│   ├── 05_sorting-median/  （ソートと中央値）
-│   └── 06_simulation/          （シミュレーション）
+├── index.html         # 学習ページ本体（GitHub Pages のトップ）
+├── assets/            # app.css / app.js（共通のCSS・JS）
+├── data/              # cpe49.js / cpe26.js（問題データ）, types.js（8つの型）
+├── problems/          # 問題文のPDFを画像にしたもの（CPE49-01-1.png など）
 │
-├── answers/       # 49問の C++ 解答（CPE49-01.cpp〜CPE49-49.cpp）
-│   └── samples/   # サンプル入出力（CPExx.in / CPExx.out）
-├── tests/         # テストランナー（python3 tests/run.py CPE49-02）
-├── cpp基礎/       # C++ の基礎練習
-├── cpe-patterns.html  # 学習ページ（GitHub Pages で公開）
-├── index.html         # ホーム（GitHub Pages のトップ。各ページへのリンク）
-├── cpe49.html         # 49問の問題PDF一覧
+├── cpe49/             # 過去問49問（カテゴリ別）  ID: CPE49-01〜CPE49-49
+│   ├── 00_basics/                      （基礎）
+│   ├── 01_chars-and-strings/           （文字と文字列）
+│   ├── 02_number-bases/                （進数変換）
+│   ├── 03_primes-factors-multiples/    （素数・因数・倍数）
+│   ├── 04_geometry-coordinates/        （幾何・座標）
+│   ├── 05_sorting-median/              （ソートと中央値）
+│   └── 06_simulation/                  （シミュレーション）
+├── cpe26/             # CPE26選集56問のPDFと md/   ID: CPE26-011〜CPE26-144
 │
-└── done/          # 解き終わった問題（別の方の参考解答）
+├── answers/           # C++ 解答（CPE49-01.cpp〜CPE49-49.cpp, CPE26-011.cpp〜CPE26-144.cpp）
+│   └── samples/       # サンプル入出力（CPE49-01.in / .out など）
+├── tests/             # テストランナー（python3 tests/run.py CPE49-02）
+├── cpp基礎/           # C++ の基礎練習
+│
+└── done/              # 解き終わった問題（別の方の参考解答）
     ├── CPE 1星/   （難易度1）
     ├── CPE 2 星/  （難易度2）
     ├── CPE 3 星/  （難易度3）
     └── CPE 4星/   （難易度4）
 ```
 
-各問題フォルダの中身：
+各問題フォルダ（`cpe49/`）の中身：
 
 ```
-CPExx 問題名/
+CPE49-xx 問題名/
   ├── 問題.pdf        # 元の問題PDF
   ├── md/問題.md      # Markdown変換済み（AIで読みやすい形式）
   └── uva*.java       # 参考解答（Java）
 ```
+
+CPE26選集の出典: https://cpe.mcu.edu.tw/cpelist.php
 
 ---
 
