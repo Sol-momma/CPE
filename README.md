@@ -8,7 +8,8 @@ UVa Online Judge の問題を C++ で解くことを目標にしています。
 
 - **学習ページ**: https://sol-momma.github.io/CPE/cpe-patterns.html
   （考え方の8つの型・簡単な順・英語の問題文と日本語訳・単語リスト・サンプル・解答コード）
-- **問題PDF一覧**: https://sol-momma.github.io/CPE/
+- **ホーム**: https://sol-momma.github.io/CPE/
+- **問題PDF一覧**: https://sol-momma.github.io/CPE/cpe49.html
 - **CPE26選集 PDF一覧**: https://sol-momma.github.io/CPE/cpe26.html
 - **CPE26選集 学習ページ**: https://sol-momma.github.io/CPE/cpe26-patterns.html（56問・同じ形式）
 
@@ -32,7 +33,8 @@ UVa Online Judge の問題を C++ で解くことを目標にしています。
 ├── tests/         # テストランナー（python3 tests/run.py CPE02）
 ├── cpp基礎/       # C++ の基礎練習
 ├── cpe-patterns.html  # 学習ページ（GitHub Pages で公開）
-├── index.html         # 問題PDF一覧（GitHub Pages のトップ）
+├── index.html         # ホーム（GitHub Pages のトップ。各ページへのリンク）
+├── cpe49.html         # 49問の問題PDF一覧
 │
 └── done/          # 解き終わった問題（別の方の参考解答）
     ├── CPE 1星/   （難易度1）
