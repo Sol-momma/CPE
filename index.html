@@ -791,7 +791,7 @@ body .filter-btn.active {
 <header>
   <div class="header-inner">
     <a class="logo" href="#">CPE <span class="logo-accent">PDF ARCHIVE</span></a>
-    <div class="header-sub">49 PROBLEMS</div>
+    <div class="header-sub">49 + 56 PROBLEMS</div>
   </div>
 </header>
 
@@ -812,6 +812,7 @@ body .filter-btn.active {
     <button class="filter-btn" data-cat="geometry" aria-pressed="false">幾何</button>
     <button class="filter-btn" data-cat="sorting" aria-pressed="false">ソート</button>
     <button class="filter-btn" data-cat="simulation" aria-pressed="false">シミュレーション</button>
+    <button class="filter-btn" data-cat="sel26" aria-pressed="false">CPE26選集</button>
   </nav>
 
   <div id="problem-list"></div>
@@ -826,6 +827,21 @@ const CATS = [
   { id:'geometry',   name:'幾何・座標',         color:'#38bdf8' },
   { id:'sorting',    name:'ソート・中央値',     color:'#f87171' },
   { id:'simulation', name:'シミュレーション',   color:'#f472b6' },
+  // CPE26選集（2027年〜）
+  { id:'s2601', name:'輸入格式', group:'26' },
+  { id:'s2602', name:'字串字元', group:'26' },
+  { id:'s2603', name:'日期時間', group:'26' },
+  { id:'s2604', name:'算子運算', group:'26' },
+  { id:'s2605', name:'質因倍數', group:'26' },
+  { id:'s2606', name:'進制基底', group:'26' },
+  { id:'s2607', name:'二維寫真', group:'26' },
+  { id:'s2608', name:'規則模擬', group:'26' },
+  { id:'s2609', name:'正暴窮舉', group:'26' },
+  { id:'s2610', name:'二維排數', group:'26' },
+  { id:'s2611', name:'排列組合', group:'26' },
+  { id:'s2612', name:'排序處秩', group:'26' },
+  { id:'s2613', name:'集合映對', group:'26' },
+  { id:'s2614', name:'堆疊佇列', group:'26' },
 ];
 
 const PROBLEMS = [
@@ -885,6 +901,63 @@ const PROBLEMS = [
   {id:'CPE46',name:"Eb Alto Saxophone Player",   uva:10415,cat:'simulation',pdf:"49題/06_模擬/CPE46 Eb Alto Saxophone Player/Eb Alto Saxophone Player.pdf"},
   {id:'CPE47',name:"Mutant Flatworld Explorers", uva:118,  cat:'simulation',pdf:"49題/06_模擬/CPE47Mutant Flatworld Explorers/Mutant Flatworld Explorers.pdf"},
   {id:'CPE48',name:"Cola",                       uva:11150,cat:'simulation',pdf:"49題/06_模擬/CPE48 Cola/Cola.pdf"},
+  // CPE26選集
+  {id:'CPE26011',name:"TEX Quotes",uva:272,cat:'s2601',pdf:"CPE26選集/cpe26011_uva00272_TEX Quotes.pdf"},
+  {id:'CPE26012',name:"Dates",uva:11356,cat:'s2601',pdf:"CPE26選集/cpe26012_uva11356_Dates.pdf"},
+  {id:'CPE26013',name:"Molar mass",uva:1586,cat:'s2601',pdf:"CPE26選集/cpe26013_uva01586_Molar mass.pdf"},
+  {id:'CPE26014',name:"Polynomial Showdown",uva:392,cat:'s2601',pdf:"CPE26選集/cpe26014_uva00392_Polynomial Showdown.pdf"},
+  {id:'CPE26021',name:"OneTwo Three",uva:12289,cat:'s2602',pdf:"CPE26選集/cpe26021_uva12289_OneTwo Three.pdf"},
+  {id:'CPE26022',name:"Decoding",uva:11541,cat:'s2602',pdf:"CPE26選集/cpe26022_uva11541_Decoding.pdf"},
+  {id:'CPE26023',name:"Scrolling Sign",uva:11576,cat:'s2602',pdf:"CPE26選集/cpe26023_uva11576_Scrolling Sign.pdf"},
+  {id:'CPE26024',name:"Find The Telephone",uva:10921,cat:'s2602',pdf:"CPE26選集/cpe26024_uva10921_Find The Telephone.pdf"},
+  {id:'CPE26031',name:"Mirror Clock",uva:11650,cat:'s2603',pdf:"CPE26選集/cpe26031_uva11650_Mirror Clock.pdf"},
+  {id:'CPE26032',name:"Cancer or Scorpio",uva:11947,cat:'s2603',pdf:"CPE26選集/cpe26032_uva11947_Cancer or Scorpio.pdf"},
+  {id:'CPE26033',name:"How old are you?",uva:11219,cat:'s2603',pdf:"CPE26選集/cpe26033_uva11219_How old are you.pdf"},
+  {id:'CPE26034',name:"COUNTING CHAOS",uva:11309,cat:'s2603',pdf:"CPE26選集/cpe26034_uva11309_COUNTING CHAOS.pdf"},
+  {id:'CPE26041',name:"Zapping",uva:12468,cat:'s2604',pdf:"CPE26選集/cpe26041_uva12468_Zapping.pdf"},
+  {id:'CPE26042',name:"Primary Arithmetic",uva:10035,cat:'s2604',pdf:"CPE26選集/cpe26042_uva10035_Primary Arithmetic.pdf"},
+  {id:'CPE26043',name:"Is it multiple of 3?",uva:13178,cat:'s2604',pdf:"CPE26選集/cpe26043_uva13178_Is it multiple of 3.pdf"},
+  {id:'CPE26044',name:"Expanding Fractions",uva:275,cat:'s2604',pdf:"CPE26選集/cpe26044_uva00275_Expanding Fractions.pdf"},
+  {id:'CPE26051',name:"Count the factors",uva:10699,cat:'s2605',pdf:"CPE26選集/cpe26051_uva10699_Count the factors.pdf"},
+  {id:'CPE26052',name:"Pi",uva:412,cat:'s2605',pdf:"CPE26選集/cpe26052_uva00412_Pi.pdf"},
+  {id:'CPE26053',name:"Product of digits",uva:993,cat:'s2605',pdf:"CPE26選集/cpe26053_uva00993_Product of digits.pdf"},
+  {id:'CPE26054',name:"Prime Land",uva:516,cat:'s2605',pdf:"CPE26選集/cpe26054_uva00516_Prime Land.pdf"},
+  {id:'CPE26061',name:"Kibbles n\" Bits \"n\" Bits \"n\" Bits\"",uva:446,cat:'s2606',pdf:"CPE26選集/cpe26061_uva00446_Kibbles n Bits n Bits n Bits.pdf"},
+  {id:'CPE26062',name:"The Base-1 Number System",uva:11398,cat:'s2606',pdf:"CPE26選集/cpe26062_uva11398_The Base-1 Number System.pdf"},
+  {id:'CPE26063',name:"Base -2",uva:11121,cat:'s2606',pdf:"CPE26選集/cpe26063_uva11121_Base -2.pdf"},
+  {id:'CPE26064',name:"Fibonaccimal Base",uva:948,cat:'s2606',pdf:"CPE26選集/cpe26064_uva00948_Fibonaccimal Base.pdf"},
+  {id:'CPE26071',name:"Minesweeper",uva:10189,cat:'s2607',pdf:"CPE26選集/cpe26071_uva10189_Minesweeper.pdf"},
+  {id:'CPE26072',name:"Where''s Waldorf?",uva:10010,cat:'s2607',pdf:"CPE26選集/cpe26072_uva10010_Wheres Waldorf.pdf"},
+  {id:'CPE26073',name:"LC-Display",uva:706,cat:'s2607',pdf:"CPE26選集/cpe26073_uva00706_LC-Display.pdf"},
+  {id:'CPE26074',name:"Not That Kind of Graph",uva:10800,cat:'s2607',pdf:"CPE26選集/cpe26074_uva10800_Not That Kind of Graph.pdf"},
+  {id:'CPE26081',name:"Reverse and Add",uva:10018,cat:'s2608',pdf:"CPE26選集/cpe26081_uva10018_Reverse and Add.pdf"},
+  {id:'CPE26082',name:"Die Game",uva:10409,cat:'s2608',pdf:"CPE26選集/cpe26082_uva10409_Die Game.pdf"},
+  {id:'CPE26083',name:"Credit Check",uva:11743,cat:'s2608',pdf:"CPE26選集/cpe26083_uva11743_Credit Check.pdf"},
+  {id:'CPE26084',name:"Contest Scoreboard",uva:10258,cat:'s2608',pdf:"CPE26選集/cpe26084_uva10258_Contest Scoreboard.pdf"},
+  {id:'CPE26091',name:"Points in Figures: Rectangles, Circles, and Triangles",uva:478,cat:'s2609',pdf:"CPE26選集/cpe26091_uva00478_Points in Figures Rectangles Circles and Triangles.pdf"},
+  {id:'CPE26092',name:"Blocks",uva:10365,cat:'s2609',pdf:"CPE26選集/cpe26092_uva10365_Blocks.pdf"},
+  {id:'CPE26093',name:"Digit Counting",uva:1225,cat:'s2609',pdf:"CPE26選集/cpe26093_uva01225_Digit Counting.pdf"},
+  {id:'CPE26094',name:"Alternate Task",uva:11728,cat:'s2609',pdf:"CPE26選集/cpe26094_uva11728_Alternate Task.pdf"},
+  {id:'CPE26101',name:"Cantor Fractions",uva:880,cat:'s2610',pdf:"CPE26選集/cpe26101_uva00880_Cantor Fractions.pdf"},
+  {id:'CPE26102',name:"Joana and the Odd Numbers",uva:913,cat:'s2610',pdf:"CPE26選集/cpe26102_uva00913_Joana and the Odd Numbers.pdf"},
+  {id:'CPE26103',name:"Ant on a Chessboard",uva:10161,cat:'s2610',pdf:"CPE26選集/cpe26103_uva10161_Ant on a Chessboard.pdf"},
+  {id:'CPE26104',name:"Spiral Tap",uva:10920,cat:'s2610',pdf:"CPE26選集/cpe26104_uva10920_Spiral Tap.pdf"},
+  {id:'CPE26111',name:"Binomial Showdown",uva:530,cat:'s2611',pdf:"CPE26選集/cpe26111_uva00530_Binomial Showdown.pdf"},
+  {id:'CPE26112',name:"How do you add?",uva:10943,cat:'s2611',pdf:"CPE26選集/cpe26112_uva10943_How do you add.pdf"},
+  {id:'CPE26113',name:"The Hamming Distance Problem",uva:729,cat:'s2611',pdf:"CPE26選集/cpe26113_uva00729_The Hamming Distance Problem.pdf"},
+  {id:'CPE26114',name:"Generating Fast",uva:10098,cat:'s2611',pdf:"CPE26選集/cpe26114_uva10098_Generating Fast.pdf"},
+  {id:'CPE26121',name:"Flip Sort",uva:10327,cat:'s2612',pdf:"CPE26選集/cpe26121_uva10327_Flip Sort.pdf"},
+  {id:'CPE26122',name:"Shopaholic",uva:11369,cat:'s2612',pdf:"CPE26選集/cpe26122_uva11369_Shopaholic.pdf"},
+  {id:'CPE26123',name:"Lumberjack Sequencing",uva:11942,cat:'s2612',pdf:"CPE26選集/cpe26123_uva11942_Lumberjack Sequencing.pdf"},
+  {id:'CPE26124',name:"Building designing",uva:11039,cat:'s2612',pdf:"CPE26選集/cpe26124_uva11039_Building designing.pdf"},
+  {id:'CPE26131',name:"Word Amalgamation",uva:642,cat:'s2613',pdf:"CPE26選集/cpe26131_uva00642_Word Amalgamation.pdf"},
+  {id:'CPE26132',name:"Cool Word",uva:12820,cat:'s2613',pdf:"CPE26選集/cpe26132_uva12820_Cool Word.pdf"},
+  {id:'CPE26133',name:"Simply Subsets",uva:496,cat:'s2613',pdf:"CPE26選集/cpe26133_uva00496_Simply Subsets.pdf"},
+  {id:'CPE26134',name:"Antiarithmetic",uva:10730,cat:'s2613',pdf:"CPE26選集/cpe26134_uva10730_Antiarithmetic.pdf"},
+  {id:'CPE26141',name:"Throwing cards away I",uva:10935,cat:'s2614',pdf:"CPE26選集/cpe26141_uva10935_Throwing cards away I.pdf"},
+  {id:'CPE26142',name:"Rockabye Tobby",uva:13190,cat:'s2614',pdf:"CPE26選集/cpe26142_uva13190_Rockabye Tobby.pdf"},
+  {id:'CPE26143',name:"Parentheses Balance",uva:673,cat:'s2614',pdf:"CPE26選集/cpe26143_uva00673_Parentheses Balance.pdf"},
+  {id:'CPE26144',name:"Crazy King",uva:11352,cat:'s2614',pdf:"CPE26選集/cpe26144_uva11352_Crazy King.pdf"},
 ];
 
 let activeFilter = 'all';
@@ -895,7 +968,9 @@ function render() {
 
   const catsToShow = activeFilter === 'all'
     ? CATS
-    : CATS.filter(c => c.id === activeFilter);
+    : activeFilter === 'sel26'
+      ? CATS.filter(c => c.group === '26')
+      : CATS.filter(c => c.id === activeFilter);
 
   if (catsToShow.length === 0) {
     list.innerHTML = '<p class="empty-msg">問題が見つかりません</p>';
