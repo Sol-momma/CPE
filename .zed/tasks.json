@@ -1,0 +1,20 @@
+[
+    {
+        "label": "CPE: 全テスト（サンプル+エッジ+ランダム100件）",
+        "command": "python3 tests/run.py \"$ZED_FILE\"",
+        "cwd": "$ZED_WORKTREE_ROOT",
+        "reveal": "always"
+    },
+    {
+        "label": "CPE: ランダム3件の入出力を表示",
+        "command": "python3 tests/run.py \"$ZED_FILE\" --only random --n 3 --show",
+        "cwd": "$ZED_WORKTREE_ROOT",
+        "reveal": "always"
+    },
+    {
+        "label": "CPE: 前回落ちた入力を再実行",
+        "command": "python3 tests/run.py \"$ZED_FILE\" --only failed",
+        "cwd": "$ZED_WORKTREE_ROOT",
+        "reveal": "always"
+    }
+]

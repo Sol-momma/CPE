@@ -1,2 +1,21 @@
 .DS_Store
-  *.class
+
+# コンパイル結果（ソースから作り直せる）
+*.class
+*.dSYM/
+*.o
+cpp基礎/01
+cpp基礎/02
+cpp基礎/hello
+cpp基礎/sample
+__pycache__/
+
+# テストランナーの生成物
+tests/.build/
+tests/failed/
+
+# 個人メモ（公開しない）
+notes/
+docs/
+outputs/
+personas/

@@ -1,0 +1,4 @@
+# bits/stdc++.h は Homebrew の g++-15 にしか無いので、clangd に g++-15 のヘッダを使わせる
+CompileFlags:
+  Compiler: /opt/homebrew/bin/g++-15
+  Add: [-std=c++17]

@@ -140,7 +140,7 @@ int main() {
 ### コンパイルと実行
 
 ```bash
-g++ -o sol solution.cpp
+g++-15 -o sol solution.cpp   # macOS の g++ は clang で bits/stdc++.h が動かないため g++-15 を使う
 echo "入力" | ./sol
 ```
 

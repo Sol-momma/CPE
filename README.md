@@ -4,6 +4,12 @@ CPE（Collegiate Programming Examination）台湾の大学生向けプログラ�
 
 UVa Online Judge の問題を C++ で解くことを目標にしています。
 
+## ブラウザで見る
+
+- **学習ページ**: https://sol-momma.github.io/CPE/cpe-patterns.html
+  （考え方の8つの型・簡単な順・英語の問題文と日本語訳・単語リスト・サンプル・解答コード）
+- **問題PDF一覧**: https://sol-momma.github.io/CPE/
+
 ---
 
 ## フォルダ構成
@@ -18,6 +24,13 @@ UVa Online Judge の問題を C++ で解くことを目標にしています。
 │   ├── 04_幾何與座標/    （幾何・座標）
 │   ├── 05_排序與中位數/  （ソートと中央値）
 │   └── 06_模擬/          （シミュレーション）
+│
+├── answers/       # 49問の C++ 解答（CPE01.cpp〜CPE49.cpp）
+│   └── samples/   # サンプル入出力（CPExx.in / CPExx.out）
+├── tests/         # テストランナー（python3 tests/run.py CPE02）
+├── cpp基礎/       # C++ の基礎練習
+├── cpe-patterns.html  # 学習ページ（GitHub Pages で公開）
+├── index.html         # 問題PDF一覧（GitHub Pages のトップ）
 │
 └── done/          # 解き終わった問題（別の方の参考解答）
     ├── CPE 1星/   （難易度1）
@@ -117,6 +130,12 @@ int main() {
 ### コンパイルと実行
 
 ```bash
-g++ -o sol solution.cpp
+g++-15 -o sol solution.cpp   # macOS の g++ は clang で bits/stdc++.h が使えないため g++-15
 echo "入力データ" | ./sol
+```
+
+### テスト
+
+```bash
+python3 tests/run.py CPE02          # サンプル + エッジケース + ランダム入力
 ```
