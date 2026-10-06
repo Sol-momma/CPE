@@ -23,8 +23,8 @@
   --c-brute:#fb7185; --c-sim:#a3e635; --c-math:#d8b4fe; --c-grid:#38bdf8; --on:#141917;
   --code-bg:#111614; --code-cm:#8a998f; --vw:#fbbf24; --vw-bg:#2e2716; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.75}
-.layout{max-width:80rem;margin:0 auto;padding-inline:16px;display:grid;grid-template-columns:15.5rem minmax(0,1fr);gap:32px}
-.wrap{max-width:60rem;padding-block:32px 72px;display:grid;gap:48px;min-width:0}
+.layout{max-width:110rem;margin:0 auto;padding-inline:16px;display:grid;grid-template-columns:15.5rem minmax(0,1fr);gap:32px}
+.wrap{max-width:none;padding-block:32px 72px;display:grid;gap:48px;min-width:0}
 section{scroll-margin-top:16px}
 .side{position:sticky;top:env(safe-area-inset-top,0px);align-self:start;max-height:100vh;max-height:100dvh;overflow-y:auto;padding-block:28px 24px;display:grid;gap:18px;min-width:0}
 .side .brand{font-weight:900;font-size:1.05rem;line-height:1.3}
@@ -132,6 +132,17 @@ pre.io{margin:0;overflow-x:auto;background:var(--soft);border-radius:6px;padding
 .fold{margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
 .fold summary{cursor:pointer;font-weight:700}
 .fold summary:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.split{display:grid;gap:14px;min-width:0}
+.left{display:grid;gap:6px;align-content:start;min-width:0}
+.codecol{min-width:0;border-top:1px solid var(--line);padding-top:8px}
+.codecol > summary{cursor:pointer;font-weight:700}
+@media (min-width:1200px){
+  .split{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
+  .codecol{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);max-height:calc(100vh - 24px);overflow:auto;border-top:0;padding-top:0}
+  .codecol > summary{pointer-events:none;list-style:none;font-family:var(--serif);font-size:1.15rem}
+  .codecol > summary::-webkit-details-marker{display:none}
+  .codecol .codehead{margin-top:4px}
+}
 .codehead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px}
 .codehead .lbl{font-family:var(--mono)}
 .copy{font-family:var(--body);font-size:.82rem;font-weight:700;border:1px solid var(--line);background:var(--soft);color:var(--fg);border-radius:6px;padding:2px 10px;cursor:pointer}
@@ -331,6 +342,9 @@ Q.forEach(q=>{const b=document.createElement('button');b.type='button';b.classNa
   b.querySelector('.nm').textContent=q[1];b.onclick=()=>select(q[0],true);grid.appendChild(b)});
 function select(n,jump){current=n;render();if(jump)document.getElementById('problem').scrollIntoView({behavior:'smooth',block:'start'})}
 const foldOpen={ja:false,text:false};
+// 広い画面では問題（左）と解答コード（右）を横並びにし、コードは常に開く
+const wide=matchMedia('(min-width: 1200px)');let codeOpen=false;
+wide.addEventListener('change',()=>render());
 const TIERS=[
  ["★","はじめの一歩","入力を読んで、式1本かループ1つで答えが出る。",["24","02","19","22","35","20","10","13"]],
  ["★★","ループと配列","% 10、配列で数える、sort など、型を1つ使えば解ける。",["01","28","05","32","48","03","04","07","11","15","44","09","31","30","42","27","08","39"]],
@@ -371,6 +385,7 @@ function render(){
   const q=Q.find(x=>x[0]===current),d=document.getElementById('detail');
   const st=STMT[q[0]],sm=SAMPLE[q[0]];
   d.innerHTML=`<div class="eyebrow">CPE${q[0]}</div><h3></h3><div class="tags">${q[2].map(k=>`<span class="tag" style="--pc:${cv(k)}">${P[k].name}</span>`).join('')}</div>
+    <div class="split"><div class="left">
     <div class="sheet" id="sheet"></div>
     <div class="note" id="note" hidden></div>
     <div class="blk"><div class="lbl">Vocabulary · この問題の単語</div><div class="vtbl"><table class="vocab" id="vocab"></table></div></div>
@@ -389,10 +404,12 @@ function render(){
       <div class="blk"><h4>Sample Output</h4><pre class="io" id="sout"></pre></div>
     </div>
     <details class="fold"><summary>考え方を見る</summary><p class="idea"></p></details>
-    <details class="fold"><summary>解答コードを見る</summary>
+    </div>
+    <details class="codecol" id="codecol"><summary>解答コード</summary>
       <div class="codehead"><span class="lbl">CPE${q[0]}.cpp</span><button type="button" class="copy" id="copy">コピー</button></div>
       <pre class="src-code" id="code"></pre>
-    </details>`;
+    </details></div>`;
+  const cc=d.querySelector('#codecol');cc.open=wide.matches||codeOpen;cc.ontoggle=()=>{if(!wide.matches)codeOpen=cc.open};
   d.querySelector('h3').textContent=q[1];d.querySelector('.idea').textContent=q[3];
   const sheet=d.querySelector('#sheet');
   for(let i=1;i<=PAGES[q[0]];i++){const img=document.createElement('img');img.src=`problems/CPE${q[0]}-${i}.png`;img.alt=`CPE${q[0]} ${q[1]} の問題文（PDF ${i}ページ目）`;img.loading='lazy';sheet.append(img)}
