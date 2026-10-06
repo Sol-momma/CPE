@@ -2,18 +2,18 @@
 """CPE 解答テストランナー
 
 使い方:
-  python3 tests/run.py CPE02                 # サンプル + エッジ + ランダム100件
-  python3 tests/run.py CPE02 --n 5 --show    # ランダム5件の入出力を表示
-  python3 tests/run.py CPE02 --only failed   # 前回落ちた入力だけ再実行
-  python3 tests/run.py answers/CPE02.cpp     # パスを渡してもOK（Zed用）
+  python3 tests/run.py CPE49-02                 # サンプル + エッジ + ランダム100件
+  python3 tests/run.py CPE49-02 --n 5 --show    # ランダム5件の入出力を表示
+  python3 tests/run.py CPE49-02 --only failed   # 前回落ちた入力だけ再実行
+  python3 tests/run.py answers/CPE49-02.cpp     # パスを渡してもOK（Zed用）
 
 ディレクトリ:
-  answers/CPExx.cpp              解答
-  answers/samples/CPExx.in/.out  サンプル（出力を照合）
-  tests/edge/CPExx/*.in (.out)   手書きのエッジケース（.out があれば照合）
-  tests/gen/CPExx.py             ランダム生成器 gen(r) -> str（無ければサンプルを変異させる）
-  tests/brute/CPExx.cpp          愚直解（あればランダム入力で出力を比較）
-  tests/failed/CPExx.in          最後に落ちた入力（自動保存）
+  answers/CPE49-xx.cpp              解答
+  answers/samples/CPE49-xx.in/.out  サンプル（出力を照合）
+  tests/edge/CPE49-xx/*.in (.out)   手書きのエッジケース（.out があれば照合）
+  tests/gen/CPE49-xx.py             ランダム生成器 gen(r) -> str（無ければサンプルを変異させる）
+  tests/brute/CPE49-xx.cpp          愚直解（あればランダム入力で出力を比較）
+  tests/failed/CPE49-xx.in          最後に落ちた入力（自動保存）
 """
 import argparse
 import importlib.util
@@ -200,22 +200,22 @@ def stage_failed(exe, name) -> bool:
 
 
 def problem_index():
-    """answers/ の1行目「// CPE01 Vito's Family (UVa 10041)」から {CPE番号: (タイトル, UVa番号)} を作る"""
+    """answers/ の1行目「// CPE49-01 Vito's Family (UVa 10041)」から {CPE番号: (タイトル, UVa番号)} を作る"""
     idx = {}
     for f in sorted((ROOT / "answers").glob("CPE*.cpp")):
-        m = re.match(r"//\s*(CPE\d{2})\s*(.*?)\s*\(UVa\s*(\d+)\)", f.open().readline())
+        m = re.match(r"//\s*(CPE(?:49-\d{2}|26-\d{3}))\s*(.*?)\s*\(UVa\s*(\d+)\)", f.open().readline())
         if m:
             idx[m.group(1)] = (m.group(2), m.group(3))
     return idx
 
 
 def resolve_problem(target: Path):
-    """パス → ファイル内のコメント → ファイル名のUVa番号 → ファイル名とタイトルの一致 の順で CPExx を探す"""
-    m = re.findall(r"CPE\d{2}", str(target))
+    """パス → ファイル内のコメント → ファイル名のUVa番号 → ファイル名とタイトルの一致 の順で CPE49-xx を探す"""
+    m = re.findall(r"CPE(?:49-\d{2}|26-\d{3})", str(target))
     if m:
         return m[-1]
     if target.suffix == ".cpp" and target.exists():
-        m = re.search(r"CPE\d{2}", target.read_text(errors="ignore"))
+        m = re.search(r"CPE(?:49-\d{2}|26-\d{3})", target.read_text(errors="ignore"))
         if m:
             return m.group()
     idx = problem_index()
@@ -232,7 +232,7 @@ def resolve_problem(target: Path):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("target", help="CPE02 や answers/CPE02.cpp など（パス中の CPExx を拾う）")
+    ap.add_argument("target", help="CPE49-02 や answers/CPE49-02.cpp など（パス中の CPE49-xx を拾う）")
     ap.add_argument("--n", type=int, default=100, help="ランダムテストの件数")
     ap.add_argument("--seed", type=int)
     ap.add_argument("--show", action="store_true", help="ランダムの入出力を毎回表示")
@@ -243,7 +243,7 @@ def main():
     name = resolve_problem(target)
     if not name:
         sys.exit(f"'{a.target}' がどの問題か分かりません。\n"
-                 f"ファイルのどこかに // CPE24 のように問題番号を書くと認識します。")
+                 f"ファイルのどこかに // CPE49-24 のように問題番号を書くと認識します。")
     # .cpp を渡されたらそのファイル自体をテスト（notes/ の練習コードなど）、それ以外は answers/ の解答
     src = target.resolve() if target.suffix == ".cpp" else ROOT / "answers" / f"{name}.cpp"
     if not src.exists():
