@@ -10,6 +10,7 @@ UVa Online Judge の問題を C++ で解くことを目標にしています。
   （考え方の8つの型・簡単な順・英語の問題文と日本語訳・単語リスト・サンプル・解答コード）
 - **問題PDF一覧**: https://sol-momma.github.io/CPE/
 - **CPE26選集 PDF一覧**: https://sol-momma.github.io/CPE/cpe26.html
+- **CPE26選集 学習ページ**: https://sol-momma.github.io/CPE/cpe26-patterns.html（56問・同じ形式）
 
 ---
 
