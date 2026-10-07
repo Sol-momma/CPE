@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja" data-theme="auto">
+<html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -7,55 +7,17 @@
 <meta name="description" content="CPE 49 and CPE26 Selection: problems, English statements with Japanese translation, vocabulary, sample I/O and C++ solutions.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=DM+Sans:opsz,wght@9..40,400..800&family=Dela+Gothic+One&family=DotGothic16&family=JetBrains+Mono:wght@400;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&family=Noto+Serif+TC:wght@400;700&family=Press+Start+2P&family=Shippori+Mincho+B1:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="assets/app.css?v=20261007h">
-<link rel="stylesheet" href="assets/ink.css?v=20261007h">
-<link rel="stylesheet" href="assets/skins.css?v=20261007h">
-<script>
-  // テーマは描画前に決める（ちらつき防止）
-  try { var t = JSON.parse(localStorage.getItem('cpe:theme') || '"auto"'); if (t === 'paper' || t === 'ink') document.documentElement.dataset.theme = t; } catch (e) {}
-  // 見た目（スキン）: ?skin=a|b|c|sumi で指定でき、最後の選択を覚える
-  try {
-    var q = new URLSearchParams(location.search).get('skin'), sk = q || JSON.parse(localStorage.getItem('cpe:skin') || '"sumi"');
-    if (sk === 'a' || sk === 'b' || sk === 'c') document.documentElement.dataset.skin = sk;
-    if (q) localStorage.setItem('cpe:skin', JSON.stringify(sk));
-  } catch (e) {}
-</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Dela+Gothic+One&family=JetBrains+Mono:wght@400;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="assets/app.css?v=20261007j">
 </head>
 <body>
 <a class="skip" href="#app">Skip to content / 本文へ / 跳到內容</a>
-
-<!-- 共通のSVGフィルター: 墨のにじみ・かすれ・落款の欠け -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <filter id="f-rough" x="-5%" y="-5%" width="110%" height="110%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.016 0.04" numOctaves="3" seed="7" result="n"/>
-      <feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
-    <filter id="f-wash" x="-5%" y="-5%" width="110%" height="110%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.03" numOctaves="3" seed="3" result="n"/>
-      <feDisplacementMap in="SourceGraphic" in2="n" scale="22" xChannelSelector="R" yChannelSelector="G" result="d"/>
-      <feGaussianBlur in="d" stdDeviation="3.2"/>
-    </filter>
-    <filter id="f-soft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="9"/></filter>
-    <filter id="f-brush" x="-10%" y="-10%" width="120%" height="120%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves="2" seed="11" result="n"/>
-      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
-    <filter id="f-grain" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="5"/>
-      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 -.18"/>
-    </filter>
-  </defs>
-</svg>
-
 <div id="app" tabindex="-1"><p class="boot">Loading… / 読み込み中… / 載入中…</p></div>
 <div id="layer" aria-live="polite"></div>
 <noscript><p style="padding:24px">This page needs JavaScript. / このページは JavaScript が必要です。 / 此頁面需要 JavaScript。</p></noscript>
 
-<script src="data/types.js?v=20261007h"></script>
-<script src="assets/ink.js?v=20261007h"></script>
-<script src="assets/art.js?v=20261007h"></script>
-<script src="assets/app.js?v=20261007h"></script>
+<script src="data/types.js?v=20261007j"></script>
+<script src="assets/art.js?v=20261007j"></script>
+<script src="assets/app.js?v=20261007j"></script>
 </body>
 </html>
