@@ -1,0 +1,200 @@
+/* 見た目の切り替え（スキン）。レイアウトは共通で、色・書体・部品の形・絵・進捗・印だけを入れ替える。
+ *   なし(sumi) = 水墨 / a = Google × Vogue / b = 1950年のドット / c = ファミコン
+ * トークンの上書きは :root[data-skin][data-theme] で、既存のテーマ指定より強くする。 */
+
+/* ───────── A: Google × Vogue ───────── */
+:root[data-skin="a"][data-theme] {
+  --head: "Bodoni Moda", "Shippori Mincho B1", "Noto Serif TC", serif;
+  --sans: "DM Sans", "Zen Kaku Gothic New", "PingFang TC", "Noto Sans TC", system-ui, sans-serif;
+  --bg: light-dark(#f1f3f4, #09090a); --panel: light-dark(#ffffff, #151517); --panel-2: light-dark(#f1f3f4, #1e1e21);
+  --line: light-dark(#dadce0, #2b2b30); --line-strong: light-dark(#c4c7cc, #45454c);
+  --ink: light-dark(#0b0b0c, #f6f6f7); --muted: light-dark(#5f6368, #a2a2aa); --faint: light-dark(#82868b, #75757d);
+  --link: light-dark(#2447ff, #8f9fff); --link-soft: light-dark(#e8ecff, #1b2042);
+  --seal: #ff2d46; --seal-ink: #ffffff; --code-bg: light-dark(#f6f7f8, #101012); --r: 22px;
+}
+html[data-skin="a"] .btn { border-radius: 999px; }
+html[data-skin="a"] .btn.solid { background: var(--link); border-color: var(--link); color: #fff; }
+html[data-skin="a"] .pane { box-shadow: 0 1px 2px rgb(0 0 0 / 7%), 0 6px 20px rgb(0 0 0 / 4%); }
+html[data-skin="a"] .pane-bar { background: var(--panel); }
+html[data-skin="a"] .tab[aria-selected="true"] { color: var(--link); border-bottom-color: var(--link); }
+html[data-skin="a"] .chip, html[data-skin="a"] .pill, html[data-skin="a"] .langsw { border-radius: 999px; }
+html[data-skin="a"] .ptitle { font-weight: 800; letter-spacing: -.02em; font-size: clamp(1.8rem, 3vw, 2.6rem); }
+html[data-skin="a"] .word b { font-weight: 900; letter-spacing: -.045em; font-size: clamp(2.4rem, 6.4vw, 5.2rem); }
+html[data-skin="a"] .word .mark-a { width: 52px; height: 52px; font-size: 2rem; }
+html[data-skin="a"] .mast-top { padding-bottom: 6px; }
+html[data-skin="a"] .mast-rule { border: 0; border-top: 1px solid var(--ink); height: 0; }
+html[data-skin="a"] .lead { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); border-bottom: 1px solid var(--ink); padding-top: 40px; }
+html[data-skin="a"] .lead h1 { font-weight: 900; font-size: clamp(3rem, 6.6vw, 6rem); line-height: .92; letter-spacing: -.04em; }
+html[data-skin="a"] .lead .dek { font-style: normal; font-family: var(--sans); font-size: 1.1rem; }
+html[data-skin="a"] .col h2, html[data-skin="a"] .article h2 { font-weight: 800; }
+html[data-skin="a"] .article h1 { font-weight: 900; letter-spacing: -.035em; font-size: clamp(2.6rem, 6vw, 5rem); line-height: .95; }
+html[data-skin="a"] .drawer { border-radius: 0 28px 28px 0; }
+html[data-skin="a"] .row { border-radius: 14px; }
+html[data-skin="a"] .row:nth-child(odd) { background: transparent; }
+html[data-skin="a"] .row:hover { background: var(--panel-2); }
+html[data-skin="a"] .art { border: 0; border-radius: 28px; background: var(--link); min-height: 420px; }
+.a-hero { position: absolute; inset: 0; padding: 22px 26px; display: flex; flex-direction: column; justify-content: flex-end; color: #fff; overflow: hidden; }
+@property --n { syntax: '<integer>'; inherits: false; initial-value: 0; }
+.a-num { --n: 0; counter-reset: n var(--n); font-family: var(--head); font-weight: 900; font-size: clamp(6.5rem, 15vw, 13.5rem); line-height: .8; letter-spacing: -.07em; margin: 0 0 -.04em -.04em; animation: acount 2s cubic-bezier(.2, .7, .15, 1) .15s both; font-variant-numeric: tabular-nums; }
+.a-num::after { content: counter(n); }
+@keyframes acount { from { --n: 0; } to { --n: var(--to); } }
+.a-cap { font: 700 1.3rem/1.2 var(--sans); max-width: 11em; margin-top: 18px; }
+.a-cap2 { font: 400 .9rem var(--sans); opacity: .8; margin-top: 4px; }
+.a-line { position: absolute; left: 26px; right: 26px; top: 22px; height: 2px; background: rgb(255 255 255 / 70%); transform-origin: left; animation: wipe 1.2s cubic-bezier(.2, .7, .2, 1) both; }
+@keyframes wipe { from { transform: scaleX(0); } }
+.m-a { display: grid; grid-template-columns: auto 1fr; align-items: baseline; column-gap: 8px; row-gap: 6px; min-width: 120px; }
+.m-a b { font: 900 2.6rem/1 var(--head); letter-spacing: -.04em; }
+.m-a span { color: var(--muted); font-size: .9rem; }
+.m-a i { grid-column: 1 / -1; height: 4px; border-radius: 2px; background: var(--line); position: relative; overflow: hidden; }
+.m-a i::after { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--p); background: var(--link); border-radius: 2px; }
+.m-a.sm { min-width: 74px; row-gap: 3px; } .m-a.sm b { font-size: 1.05rem; } .m-a.sm span { font-size: .72rem; }
+.badge-a { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; border-radius: 999px; background: var(--ink); color: var(--panel); font: 700 .78rem var(--sans); margin-left: 4px; align-self: center; }
+.badge-a::before { content: "✓"; color: #53e0a6; }
+.badge-a.stamp-in { animation: pop .45s cubic-bezier(.2, 1.4, .4, 1) both; }
+@keyframes pop { from { transform: scale(.4); opacity: 0; } }
+.mark-a { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--ink); color: var(--panel); font: italic 800 1.15rem var(--head); }
+
+/* ───────── B: 1950年のドット（ベンデイ・ドット） ───────── */
+:root[data-skin="b"][data-theme] {
+  color-scheme: light;
+  --b-ink: #14110f; --b-yellow: #ffd83a; --b-mag: #ff2e88; --b-cyan: #12b5e5;
+  --head: "Bangers", "Dela Gothic One", "Zen Maru Gothic", sans-serif;
+  --sans: "Zen Maru Gothic", "Zen Kaku Gothic New", "PingFang TC", sans-serif;
+  --serif: "Zen Maru Gothic", "Zen Kaku Gothic New", "Noto Serif TC", sans-serif;
+  --bg: #f7f0dc; --panel: #fffdf4; --panel-2: #fff0b8; --line: #14110f; --line-strong: #14110f;
+  --ink: #14110f; --muted: #4a433b; --faint: #7a7165; --link: #0b6fc0; --link-soft: #d9f1fb;
+  --seal: #ff2e88; --seal-ink: #ffffff; --code-bg: #fff8dc; --easy: #0b8f6b; --med: #b76e00; --hard: #d6174f;
+  --tk-kw: #d6174f; --tk-ty: #0b6fc0; --tk-cm: #7a7165; --tk-st: #0b8f6b; --tk-nu: #b76e00; --tk-pp: #7a3fb0; --r: 8px;
+}
+html[data-skin="b"] body { background-image: radial-gradient(rgba(18, 181, 229, .26) 1.3px, transparent 1.8px); background-size: 14px 14px; }
+html[data-skin="b"] [data-act="theme"] { display: none; }
+html[data-skin="b"] .pane, html[data-skin="b"] .drawer, html[data-skin="b"] .pop, html[data-skin="b"] .fpanel, html[data-skin="b"] .vtbl, html[data-skin="b"] .field pre, html[data-skin="b"] .cmd, html[data-skin="b"] .note, html[data-skin="b"] .sbox { border: 3px solid var(--b-ink); }
+html[data-skin="b"] .pane { box-shadow: 5px 5px 0 var(--b-ink); }
+html[data-skin="b"] .drawer { box-shadow: 8px 0 0 var(--b-ink); }
+html[data-skin="b"] .pane-bar { background: var(--b-yellow); border-bottom: 3px solid var(--b-ink); }
+html[data-skin="b"] .tab { font-weight: 700; }
+html[data-skin="b"] .tab[aria-selected="true"] { background: var(--b-ink); color: var(--b-yellow); border-bottom-color: transparent; }
+html[data-skin="b"] .btn { border: 3px solid var(--b-ink); box-shadow: 3px 3px 0 var(--b-ink); background: #fff; font-weight: 700; }
+html[data-skin="b"] .btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--b-ink); background: var(--b-yellow); }
+html[data-skin="b"] .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--b-ink); }
+html[data-skin="b"] .btn.solid { background: var(--b-mag); color: #fff; border-color: var(--b-ink); }
+html[data-skin="b"] .btn.solid:hover { background: var(--b-mag); opacity: 1; filter: brightness(1.06); }
+html[data-skin="b"] .btn[aria-pressed="true"].solve { background: var(--b-yellow); color: var(--b-ink); border-color: var(--b-ink); }
+html[data-skin="b"] .chip, html[data-skin="b"] .pill { border: 2px solid var(--b-ink); background: #fff; color: var(--b-ink); font-weight: 700; }
+html[data-skin="b"] .pill[aria-pressed="true"] { background: var(--b-cyan); color: var(--b-ink); }
+html[data-skin="b"] .chip.lvl { background: var(--b-yellow); }
+html[data-skin="b"] .langsw { border: 3px solid var(--b-ink); border-radius: 8px; }
+html[data-skin="b"] .langsw button[aria-pressed="true"] { background: var(--b-mag); color: #fff; }
+html[data-skin="b"] .ptitle { font-size: clamp(2.2rem, 3.4vw, 3.2rem); letter-spacing: .03em; text-shadow: 3px 3px 0 var(--b-yellow); font-weight: 400; line-height: 1.05; }
+html[data-skin="b"] .ptitle .no { color: var(--b-mag); }
+html[data-skin="b"] .word b { font-weight: 400; letter-spacing: .04em; font-size: clamp(2.6rem, 6vw, 4.8rem); text-shadow: 4px 4px 0 var(--b-yellow); }
+html[data-skin="b"] .mast-rule { border: 0; border-top: 5px solid var(--b-ink); border-bottom: 2px solid var(--b-ink); height: 8px; }
+html[data-skin="b"] .mast-nav { border-bottom: 3px solid var(--b-ink); }
+html[data-skin="b"] .mast-nav a[aria-current="page"] { background: var(--b-ink); color: var(--b-yellow); padding: 4px 10px; border-bottom-color: transparent; border-radius: 6px; }
+html[data-skin="b"] .lead { border-bottom: 3px solid var(--b-ink); }
+html[data-skin="b"] .lead h1 { font-weight: 400; font-size: clamp(3rem, 7.4vw, 6.4rem); line-height: .96; letter-spacing: .02em; text-shadow: 4px 4px 0 var(--b-yellow), 7px 7px 0 var(--b-ink); }
+html[data-skin="b"] .lead .dek { font-style: normal; font-family: var(--sans); font-size: 1.05rem; color: var(--b-ink); }
+html[data-skin="b"] .col h2, html[data-skin="b"] .article h2 { border-top: 5px solid var(--b-ink); font-weight: 400; letter-spacing: .03em; font-size: 1.7rem; }
+html[data-skin="b"] .col { border-left: 3px solid var(--b-ink); }
+html[data-skin="b"] .col:first-child { border-left: 0; }
+html[data-skin="b"] .article h1 { font-weight: 400; font-size: clamp(3rem, 7vw, 5.4rem); letter-spacing: .03em; text-shadow: 4px 4px 0 var(--b-yellow); }
+html[data-skin="b"] .row:nth-child(odd) { background: var(--panel-2); }
+html[data-skin="b"] .row[aria-current="true"] { background: var(--b-cyan); box-shadow: none; }
+html[data-skin="b"] .vw { text-decoration-color: var(--b-mag); }
+html[data-skin="b"] .art { border: 4px solid var(--b-ink); border-radius: 6px; box-shadow: 8px 8px 0 var(--b-ink); background: var(--b-yellow); }
+.b-art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.b-mag { animation: misreg 6s ease-in-out infinite alternate; }
+@keyframes misreg { from { transform: translate(0, 0); } to { transform: translate(5px, -4px); } }
+.b-bubble { position: absolute; left: 7%; top: 9%; background: #fff; border: 4px solid var(--b-ink); border-radius: 50% / 62%; padding: 10px 28px 6px; font: 400 clamp(2rem, 5vw, 3.4rem)/1 Bangers, 'Dela Gothic One', sans-serif; transform: rotate(-6deg); animation: bpop .6s cubic-bezier(.2, 1.5, .4, 1) .3s both; letter-spacing: .04em; }
+.b-bubble::after { content: ""; position: absolute; left: 62%; bottom: -22px; width: 26px; height: 26px; background: #fff; border-right: 4px solid var(--b-ink); border-bottom: 4px solid var(--b-ink); transform: skewX(-20deg) rotate(35deg); }
+.b-pow { position: absolute; right: 5%; bottom: 8%; background: var(--b-mag); color: #fff; border: 4px solid var(--b-ink); padding: 4px 16px 2px; font: 400 1.6rem/1.1 Bangers, sans-serif; letter-spacing: .06em; transform: rotate(4deg); box-shadow: 4px 4px 0 var(--b-ink); animation: bpop .6s cubic-bezier(.2, 1.5, .4, 1) .55s both; }
+@keyframes bpop { from { transform: scale(.2) rotate(-20deg); opacity: 0; } }
+.m-b { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; width: 160px; }
+.m-b i { aspect-ratio: 1; border: 2px solid var(--b-ink); border-radius: 50%; background: #fff; display: block; }
+.m-b i.on { background: var(--b-mag); box-shadow: inset -2px -2px 0 rgb(0 0 0 / 18%); }
+.m-b.sm { width: 92px; gap: 2px; } .m-b.sm i { border-width: 1.5px; }
+.badge-b { width: 74px; height: 74px; flex: none; transform: rotate(-8deg); margin-left: 6px; }
+.badge-b.stamp-in { animation: bstamp .5s cubic-bezier(.2, 1.5, .4, 1) both; }
+@keyframes bstamp { from { transform: scale(2.2) rotate(-30deg); opacity: 0; } to { transform: scale(1) rotate(-8deg); } }
+.mark-b { width: 34px; height: 34px; }
+
+/* ───────── C: ファミコン（ドット絵） ───────── */
+:root[data-skin="c"][data-theme] {
+  color-scheme: dark;
+  --head: "Press Start 2P", "DotGothic16", monospace;
+  --sans: "DotGothic16", "Zen Kaku Gothic New", monospace;
+  --serif: "DotGothic16", "Zen Kaku Gothic New", monospace;
+  --bg: #0b0d1a; --panel: #1d2b53; --panel-2: #16203f; --line: #5f6a99; --line-strong: #fff1e8;
+  --ink: #fff1e8; --muted: #c2c3c7; --faint: #83769c; --link: #29adff; --link-soft: #13214a;
+  --seal: #ff004d; --seal-ink: #fff1e8; --easy: #00e436; --med: #ffec27; --hard: #ff004d; --code-bg: #0f1733;
+  --tk-kw: #ff77a8; --tk-ty: #29adff; --tk-cm: #83769c; --tk-st: #ffec27; --tk-nu: #ffa300; --tk-pp: #00e436; --r: 0;
+}
+html[data-skin="c"] body { font-size: 16px; line-height: 1.75; }
+html[data-skin="c"] [data-act="theme"] { display: none; }
+/* ドット絵の枠: 四隅が欠けた長方形を box-shadow で作る */
+html[data-skin="c"] .pane, html[data-skin="c"] .btn, html[data-skin="c"] .chip, html[data-skin="c"] .pill, html[data-skin="c"] .sbox, html[data-skin="c"] .drawer, html[data-skin="c"] .pop, html[data-skin="c"] .fpanel, html[data-skin="c"] .vtbl, html[data-skin="c"] .art, html[data-skin="c"] .langsw, html[data-skin="c"] .field pre, html[data-skin="c"] .cmd, html[data-skin="c"] .note {
+  border: 0; border-radius: 0; margin: 4px;
+  box-shadow: 0 -4px 0 0 var(--line-strong), 0 4px 0 0 var(--line-strong), -4px 0 0 0 var(--line-strong), 4px 0 0 0 var(--line-strong);
+}
+html[data-skin="c"] .drawer { margin: 0; box-shadow: 4px 0 0 0 var(--line-strong); }
+html[data-skin="c"] .wmain { gap: 0; padding: 4px 12px 12px; }
+html[data-skin="c"] .btn { background: var(--panel-2); min-height: 38px; }
+html[data-skin="c"] .btn:hover { background: var(--link); color: #000; }
+html[data-skin="c"] .btn:active { transform: translateY(2px); }
+html[data-skin="c"] .btn.solid { background: #ff004d; color: #fff1e8; }
+html[data-skin="c"] .btn[aria-pressed="true"].solve { background: #00e436; color: #000; }
+html[data-skin="c"] .pane-bar { background: var(--panel-2); border-bottom: 4px solid var(--line-strong); }
+html[data-skin="c"] .tab { border: 0; margin: 0; font-size: .95rem; }
+html[data-skin="c"] .tab[aria-selected="true"] { background: var(--link); color: #000; }
+html[data-skin="c"] .tab[aria-selected="true"]::before { content: "▶ "; }
+html[data-skin="c"] .chip, html[data-skin="c"] .pill { background: var(--panel-2); min-height: 28px; }
+html[data-skin="c"] .pill[aria-pressed="true"], html[data-skin="c"] .langsw button[aria-pressed="true"] { background: #ffec27; color: #000; }
+html[data-skin="c"] .ptitle { font-size: clamp(.95rem, 1.7vw, 1.35rem); line-height: 1.6; letter-spacing: 0; font-weight: 400; color: #ffec27; }
+html[data-skin="c"] .ptitle .no { color: #83769c; }
+html[data-skin="c"] .word b { font-weight: 400; font-size: clamp(1rem, 2.4vw, 1.9rem); letter-spacing: 0; color: #ffec27; text-shadow: 3px 3px 0 #7e2553; }
+html[data-skin="c"] .wlogo { font-size: .8rem; font-weight: 400; }
+html[data-skin="c"] .mast-rule { border: 0; border-top: 4px solid var(--line-strong); border-bottom: 4px solid var(--link); height: 12px; }
+html[data-skin="c"] .mast-nav { border-bottom: 4px solid var(--line); }
+html[data-skin="c"] .mast-nav a[aria-current="page"] { color: #ffec27; border-bottom-color: transparent; }
+html[data-skin="c"] .mast-nav a[aria-current="page"]::before { content: "▶ "; }
+html[data-skin="c"] .lead { border-bottom: 4px solid var(--line); }
+html[data-skin="c"] .lead h1 { font-weight: 400; font-size: clamp(1.3rem, 3.4vw, 2.7rem); line-height: 1.45; letter-spacing: 0; color: #ffec27; text-shadow: 4px 4px 0 #7e2553; }
+html[data-skin="c"] .lead .dek { font-style: normal; font-family: var(--sans); font-size: 1.05rem; }
+html[data-skin="c"] .col { border-left: 4px solid var(--line); }
+html[data-skin="c"] .col:first-child { border-left: 0; }
+html[data-skin="c"] .col h2, html[data-skin="c"] .article h2 { border-top: 4px solid var(--link); font-weight: 400; font-size: 1rem; line-height: 1.6; }
+html[data-skin="c"] .sethead .big { font-size: 1.6rem; font-weight: 400; }
+html[data-skin="c"] .article h1 { font-weight: 400; font-size: clamp(1.4rem, 3.4vw, 2.4rem); line-height: 1.4; color: #ffec27; text-shadow: 4px 4px 0 #7e2553; }
+html[data-skin="c"] .dh h2 { font-weight: 400; font-size: 1rem; }
+html[data-skin="c"] .row { border-radius: 0; }
+html[data-skin="c"] .row:nth-child(odd) { background: var(--panel-2); }
+html[data-skin="c"] .row[aria-current="true"] { background: #ffec27; color: #000; box-shadow: none; }
+html[data-skin="c"] .row[aria-current="true"] .no { color: #000; }
+html[data-skin="c"] .vw { text-decoration-color: #ffec27; }
+html[data-skin="c"] .art { background: #1d2b53; min-height: 360px; image-rendering: pixelated; }
+.c-art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.c-cloud.c1 { animation: cloudmove 38s steps(80) infinite; }
+.c-cloud.c2 { animation: cloudmove 56s steps(80) -20s infinite; }
+@keyframes cloudmove { from { transform: translateX(-120px); } to { transform: translateX(620px); } }
+.c-coin { animation: coinbob 1s steps(2) infinite; }
+.c-coin.d2 { animation-delay: -.33s; } .c-coin.d3 { animation-delay: -.66s; }
+@keyframes coinbob { 0% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.c-stars { animation: twink 1.4s steps(2) infinite; }
+@keyframes twink { 50% { opacity: .35; } }
+.m-c { display: inline-flex; align-items: center; gap: 3px; }
+.m-c span { font: 400 .62rem var(--head); margin-right: 6px; color: #ffec27; }
+.m-c i { width: 12px; height: 18px; background: #0b0d1a; border: 2px solid #5f6a99; display: block; }
+.m-c i.on { background: #ff004d; border-color: #ff77a8; }
+.m-c.sm i { width: 7px; height: 12px; border-width: 1px; } .m-c.sm span { font-size: .5rem; margin-right: 3px; }
+.badge-c { display: inline-flex; align-items: center; gap: 6px; margin-left: 8px; align-self: center; animation: cblink 1s steps(2) infinite; }
+.badge-c svg { width: 28px; height: 28px; image-rendering: pixelated; }
+.badge-c b { font: 400 .62rem var(--head); color: #ffec27; }
+.badge-c.stamp-in { animation: cdrop .5s steps(6) both, cblink 1s steps(2) .5s infinite; }
+@keyframes cdrop { from { transform: translateY(-40px); opacity: 0; } }
+@keyframes cblink { 50% { filter: brightness(1.5); } }
+.mark-c { width: 30px; height: 30px; image-rendering: pixelated; }
+html[data-skin="a"] .wprog .txt { display: none; }
+/* 選択中のタブ（色つき背景）の上では、副言語の文字も読める色にする */
+html[data-skin="b"] .tab[aria-selected="true"] .t3 span, html[data-skin="c"] .tab[aria-selected="true"] .t3 span,
+html[data-skin="b"] .pill[aria-pressed="true"] .t3 span, html[data-skin="c"] .pill[aria-pressed="true"] .t3 span { color: inherit; }
+html[data-skin="a"] .sethead .shn .big { display: none; }

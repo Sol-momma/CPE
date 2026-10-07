@@ -98,5 +98,21 @@ window.Ink = (() => {
   const seal = () => `<svg class="seal" viewBox="0 0 64 64" aria-hidden="true"><g filter="url(#f-brush)"><rect x="5" y="5" width="54" height="54" rx="6" fill="var(--seal)"/>
       <text x="32" y="47" text-anchor="middle" font-family="'Shippori Mincho B1','Noto Serif TC',serif" font-weight="800" font-size="38" fill="var(--seal-ink)">學</text></g></svg>`;
 
-  return { landscape, enso, hanko, seal };
+  // ───── スキン（見た目）の切り替え: sumi（墨）/ a / b / c。部品は skin に応じて差し替える。
+  const skin = () => document.documentElement.dataset.skin || 'sumi';
+  const hero = (total) => {
+    const k = skin();
+    if (k === 'a') return Art.typoHero(total);
+    if (k === 'b') return Art.halftoneHero();
+    if (k === 'c') return Art.pixelHero();
+    return `${landscape()}<div class="poem">學而時習之<br>不亦說乎<small>論語</small></div>${seal()}`;
+  };
+  const meter = (pct, size, done, total, animate, label = '') => {
+    const k = skin();
+    if (k === 'sumi') return enso(pct, size === 'sm' ? 30 : 84, label, animate);
+    return Art.meter(k, pct, done, total, size);
+  };
+  const badge = (cls = '') => (skin() === 'sumi' ? hanko(cls) : Art.badge(skin(), cls));
+  const mark = () => (skin() === 'sumi' ? seal() : Art.mark(skin()));
+  return { landscape, enso, hanko, seal, skin, hero, meter, badge, mark };
 })();

@@ -53,7 +53,14 @@ const ICONS = {
   code: '<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/>',
   x: '<path d="M6 6l12 12M18 6L6 18"/>',
   home: '<path d="M4 11l8-7 8 7M6 10v9h12v-9"/>',
+  palette: '<path d="M12 3a9 9 0 100 18c1.4 0 2-.8 2-1.7 0-1-.9-1.4-.9-2.4 0-1 .8-1.7 1.9-1.7H17a4 4 0 004-4c0-4.4-4-8.2-9-8.2z"/><path d="M7.5 11.5h.01M10 7.8h.01M14.5 7.8h.01"/>',
 };
+const SKINS = [
+  { id: 'sumi', en: 'Sumi-e', ja: '水墨', zh: '水墨' },
+  { id: 'a', en: 'Vogue', ja: '雑誌（Google × Vogue）', zh: '時尚雜誌' },
+  { id: 'b', en: 'Pop dots', ja: '1950年のドット', zh: '1950 網點' },
+  { id: 'c', en: '8-bit', ja: 'ファミコン風', zh: '紅白機風' },
+];
 const ic = (n) => `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg>`;
 
 /* ───────── 状態 ───────── */
@@ -73,7 +80,7 @@ function ensureSet(id) {
   if (pending[id]) return pending[id];
   pending[id] = new Promise((resolve, reject) => {
     const s = document.createElement('script');
-    s.src = `data/cpe${id}.js?v=20261007c`;
+    s.src = `data/cpe${id}.js?v=20261007h`;
     s.onload = () => { data[id] = window.CPE_SETS[id]; resolve(data[id]); };
     s.onerror = () => { delete pending[id]; reject(new Error(`failed to load ${s.src}`)); };
     document.head.append(s);
@@ -154,6 +161,18 @@ function toggleTheme() {
   document.documentElement.dataset.theme = next; store.set('cpe:theme', next);
   $$('[data-act="theme"]').forEach((b) => { b.innerHTML = ic(effectiveDark() ? 'sun' : 'moon'); });
 }
+const skinBtn = () => `<button type="button" class="btn icon" data-act="skin" aria-label="Style / 見た目 / 風格" title="Style / 見た目 / 風格" aria-haspopup="menu">${ic('palette')}</button>`;
+function setSkin(id) {
+  if (id === 'sumi') delete document.documentElement.dataset.skin; else document.documentElement.dataset.skin = id;
+  store.set('cpe:skin', id);
+  closeLayer(); render();
+}
+function openSkinMenu(btn) {
+  const r = btn.getBoundingClientRect(), cur = Ink.skin();
+  S.pop = 'skin';
+  $('#layer').innerHTML = `<div class="scrim" data-act="close" style="background:transparent"></div><div class="pop" role="menu" style="top:${r.bottom + 6}px;right:${Math.max(8, innerWidth - r.right)}px">
+    ${SKINS.map((k) => `<button type="button" role="menuitemradio" aria-checked="${k.id === cur}" data-act="setskin" data-s="${k.id}"><span style="width:18px">${k.id === cur ? ic('check') : ''}</span>${t3(k.en, k.ja, k.zh, 'c')}</button>`).join('')}</div>`;
+}
 const themeBtn = () => `<button type="button" class="btn icon" data-act="theme" aria-label="Theme / テーマ / 主題" title="Theme / テーマ / 主題">${ic(effectiveDark() ? 'sun' : 'moon')}</button>`;
 
 /* ───────── 描画の振り分け ───────── */
@@ -175,8 +194,8 @@ function mast(current) {
   return `<header class="mast">
     <div class="mast-top">
       <div class="mast-date">${esc(en)}<br>${esc(ja)}</div>
-      <a class="word" href="#/" aria-label="CPE Study — Home">${Ink.seal()}<b>CPE Study</b></a>
-      <div class="mast-tools"><button type="button" class="btn" data-act="list">${ic('list')}<span class="t3 c"><span class="en">Problem List</span><span class="ja">問題一覧</span></span></button>${themeBtn()}</div>
+      <a class="word" href="#/" aria-label="CPE Study — Home">${Ink.mark()}<b>CPE Study</b></a>
+      <div class="mast-tools"><button type="button" class="btn" data-act="list">${ic('list')}<span class="t3 c"><span class="en">Problem List</span><span class="ja">問題一覧</span></span></button>${skinBtn()}${themeBtn()}</div>
     </div>
     <hr class="mast-rule">
     <nav class="mast-nav" aria-label="Sections / 目次">
@@ -198,7 +217,7 @@ function renderHome(app) {
     const DD = data[s.id]; if (!DD) return '';
     const done = solvedCount(s.id), pct = Math.round((done / s.n) * 100);
     return `<section class="col"><h2>${t3(s.en, s.ja, s.zh)}</h2>
-      <div class="sethead">${Ink.enso(pct, 84, `${done} / ${s.n}`, true)}<div><div class="big">${done}<span style="font-size:1.1rem;color:var(--muted)"> / ${s.n}</span></div><div class="small">${t3('solved', '解いた', '已解', 'c')}</div></div></div>
+      <div class="sethead">${Ink.meter(pct, 'lg', done, s.n, `${done} / ${s.n}`, true)}<div class="shn"><div class="big">${done}<span style="font-size:1.1rem;color:var(--muted)"> / ${s.n}</span></div><div class="small">${t3('solved', '解いた', '已解', 'c')}</div></div></div>
       <ul class="catlist">${DD.cats.map((c) => { const items = DD.items.filter((x) => x.cat === c.id); return `<li><a href="${hrefOf(s.id, 'problems', items[0].id)}"><span>${t3o(c, 'c')}</span><span class="n">${items.filter((x) => solved[x.id]).length}/${items.length}</span></a></li>`; }).join('')}</ul></section>`;
   };
   app.innerHTML = `<div class="paper">${mast('home')}
@@ -211,7 +230,7 @@ function renderHome(app) {
         <div class="cta"><a class="btn solid" href="${hrefOf(S.set, 'problems', it.id)}">${t3('Start this problem', 'この問題を解く', '開始解題', 'c')}</a>
           <button type="button" class="btn" data-act="random">${ic('shuffle')}${t3('Surprise me', 'ランダム', '隨機', 'c')}</button></div>
       </div>
-      <div class="art">${Ink.landscape()}<div class="poem">學而時習之<br>不亦說乎<small>論語</small></div>${Ink.seal()}</div>
+      <div class="art art-${Ink.skin()}">${Ink.hero(SETS.reduce((n, x) => n + x.n, 0))}</div>
     </section>
     <div class="cols">
       <section class="col resume"><h2>${t3('Pick up where you left off', '続きから', '繼續上次')}</h2>
@@ -279,7 +298,7 @@ function renderWorkspace(app) {
   const meta = setMeta(S.set), done = solvedCount(S.set), pct = Math.round((done / meta.n) * 100);
   app.innerHTML = `<div class="ws" id="ws" data-mpane="${S.mpane}">
     <header class="wbar">
-      <a class="wlogo" href="#/" aria-label="Home / 表紙">${Ink.seal()}<span>CPE Study</span></a>
+      <a class="wlogo" href="#/" aria-label="Home / 表紙">${Ink.mark()}<span>CPE Study</span></a>
       <button type="button" class="btn" data-act="list" aria-haspopup="dialog">${ic('list')}<span class="lbl">${t3('Problem List', '問題一覧', '題目列表', 'c')}</span></button>
       <button type="button" class="btn icon" data-act="prev" aria-label="Previous problem / 前の問題 / 上一題" ${prev ? '' : 'disabled'}>${ic('prev')}</button>
       <button type="button" class="btn icon" data-act="next" aria-label="Next problem / 次の問題 / 下一題" ${next ? '' : 'disabled'}>${ic('next')}</button>
@@ -288,8 +307,8 @@ function renderWorkspace(app) {
       <span class="grow"></span>
       <a class="btn" href="${encodeURI(it.pdf)}" target="_blank" rel="noopener">${ic('ext')}<span class="lbl">PDF</span></a>
       <button type="button" class="btn solve" id="solvebtn" data-act="solve" data-id="${it.id}" aria-pressed="${!!solved[it.id]}">${ic('check')}<span class="lbl">${t3('Solved', '解いた', '已解', 'c')}</span></button>
-      <span class="wprog" id="wprog">${Ink.enso(pct, 30, `${done} / ${meta.n}`)}<span class="txt">${done} / ${meta.n}</span></span>
-      ${themeBtn()}
+      <span class="wprog" id="wprog">${Ink.meter(pct, 'sm', done, meta.n, `${done} / ${meta.n}`)}<span class="txt">${done} / ${meta.n}</span></span>
+      ${skinBtn()}${themeBtn()}
       <button type="button" class="btn icon" data-act="menu" aria-label="Menu / メニュー / 選單" aria-haspopup="menu">${ic('menu')}</button>
     </header>
     <div class="mseg" role="group" aria-label="Pane / 表示"><button type="button" data-act="mpane" data-p="problem" aria-pressed="${S.mpane === 'problem'}">${t3('Problem', '問題', '題目', 'c')}</button><button type="button" data-act="mpane" data-p="code" aria-pressed="${S.mpane === 'code'}">${t3('Code', 'コード', '程式碼', 'c')}</button></div>
@@ -318,7 +337,7 @@ function renderWorkspace(app) {
 function fillLeft(it) {
   const body = $('#lbody'), st = it.stmt;
   $$('.tab[data-act="ltab"]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.t === S.ltab)));
-  const title = `<h1 class="ptitle"><span class="no">${esc(it.no)}.</span><span>${esc(it.title)}</span><span id="hk">${solved[it.id] ? Ink.hanko() : ''}</span></h1>
+  const title = `<h1 class="ptitle"><span class="no">${esc(it.no)}.</span><span>${esc(it.title)}</span><span id="hk">${solved[it.id] ? Ink.badge() : ''}</span></h1>
     <div class="chips">${lvChip(it)}<span class="chip">UVa ${it.uva}</span>${typeChips(it)}</div>`;
   if (S.ltab === 'desc') {
     const terms = st.vocab.map((v) => v.en).filter(Boolean).sort((a, b) => b.length - a.length);
@@ -418,7 +437,7 @@ function fillFilter() {
 function fillDrawerList(reveal) {
   const list = $('#dlist'); if (!list) return;
   const gs = groups(), fl = flat(gs), done = solvedCount(S.set), meta = setMeta(S.set);
-  $('#dcnt').innerHTML = `${Ink.enso(Math.round((done / meta.n) * 100), 28, '')}<span>${done} / ${meta.n} ${t3('solved', '解いた', '已解', 'en-only')}</span>`;
+  $('#dcnt').innerHTML = `${Ink.meter(Math.round((done / meta.n) * 100), 'sm', done, meta.n, '')}<span>${done} / ${meta.n} ${t3('solved', '解いた', '已解', 'en-only')}</span>`;
   if (!fl.length) { list.innerHTML = '<div class="empty">No matches. / 見つかりません。 / 找不到。</div>'; return; }
   list.innerHTML = gs.map((g) => `${g.head ? `<div class="gh">${g.head}</div>` : ''}${g.items.map((it) => `<button type="button" class="row" data-act="pick" data-id="${it.id}"${S.view === 'problems' && it.id === S.id ? ' aria-current="true"' : ''}>
       <span class="ok">${solved[it.id] ? ic('check') : ''}</span><span class="tt"><span class="no">${esc(it.no)}.</span>${esc(it.title)}</span><span class="lv" data-l="${it.tier}">${LEVELS[it.tier].short}</span></button>`).join('')}`).join('');
@@ -456,9 +475,9 @@ function toggleSolved(id, on) {
   store.set('cpe:solved', solved);
   if (S.view === 'problems') {
     const b = $('#solvebtn'); if (b) b.setAttribute('aria-pressed', String(!!solved[id]));
-    const hk = $('#hk'); if (hk && id === S.id) hk.innerHTML = v ? Ink.hanko('stamp-in') : '';
+    const hk = $('#hk'); if (hk && id === S.id) hk.innerHTML = v ? Ink.badge('stamp-in') : '';
     const meta = setMeta(S.set), done = solvedCount(S.set);
-    const wp = $('#wprog'); if (wp) wp.innerHTML = `${Ink.enso(Math.round((done / meta.n) * 100), 30, `${done} / ${meta.n}`)}<span class="txt">${done} / ${meta.n}</span>`;
+    const wp = $('#wprog'); if (wp) wp.innerHTML = `${Ink.meter(Math.round((done / meta.n) * 100), 'sm', done, meta.n, `${done} / ${meta.n}`)}<span class="txt">${done} / ${meta.n}</span>`;
   }
   if (S.drawer) fillDrawerList();
 }
@@ -490,6 +509,8 @@ document.addEventListener('click', (e) => {
   else if (a === 'random') randomPick();
   else if (a === 'solve') toggleSolved(el.dataset.id);
   else if (a === 'theme') toggleTheme();
+  else if (a === 'skin') openSkinMenu(el);
+  else if (a === 'setskin') setSkin(el.dataset.s);
   else if (a === 'menu') openMenu(el);
   else if (a === 'ltab') { S.ltab = el.dataset.t; fillLeft(currentItem()); }
   else if (a === 'rtab') { S.rtab = el.dataset.t; fillRight(currentItem()); }

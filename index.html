@@ -7,12 +7,19 @@
 <meta name="description" content="CPE 49 and CPE26 Selection: problems, English statements with Japanese translation, vocabulary, sample I/O and C++ solutions.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&family=Noto+Serif+TC:wght@400;700&family=Shippori+Mincho+B1:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="assets/app.css?v=20261007c">
-<link rel="stylesheet" href="assets/ink.css?v=20261007c">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=DM+Sans:opsz,wght@9..40,400..800&family=Dela+Gothic+One&family=DotGothic16&family=JetBrains+Mono:wght@400;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&family=Noto+Serif+TC:wght@400;700&family=Press+Start+2P&family=Shippori+Mincho+B1:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="assets/app.css?v=20261007h">
+<link rel="stylesheet" href="assets/ink.css?v=20261007h">
+<link rel="stylesheet" href="assets/skins.css?v=20261007h">
 <script>
   // テーマは描画前に決める（ちらつき防止）
   try { var t = JSON.parse(localStorage.getItem('cpe:theme') || '"auto"'); if (t === 'paper' || t === 'ink') document.documentElement.dataset.theme = t; } catch (e) {}
+  // 見た目（スキン）: ?skin=a|b|c|sumi で指定でき、最後の選択を覚える
+  try {
+    var q = new URLSearchParams(location.search).get('skin'), sk = q || JSON.parse(localStorage.getItem('cpe:skin') || '"sumi"');
+    if (sk === 'a' || sk === 'b' || sk === 'c') document.documentElement.dataset.skin = sk;
+    if (q) localStorage.setItem('cpe:skin', JSON.stringify(sk));
+  } catch (e) {}
 </script>
 </head>
 <body>
@@ -46,8 +53,9 @@
 <div id="layer" aria-live="polite"></div>
 <noscript><p style="padding:24px">This page needs JavaScript. / このページは JavaScript が必要です。 / 此頁面需要 JavaScript。</p></noscript>
 
-<script src="data/types.js?v=20261007c"></script>
-<script src="assets/ink.js?v=20261007c"></script>
-<script src="assets/app.js?v=20261007c"></script>
+<script src="data/types.js?v=20261007h"></script>
+<script src="assets/ink.js?v=20261007h"></script>
+<script src="assets/art.js?v=20261007h"></script>
+<script src="assets/app.js?v=20261007h"></script>
 </body>
 </html>
