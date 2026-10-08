@@ -1,0 +1,86 @@
+<title>stringとvectorの解説動画</title>
+<style>
+/* layout: 縦型動画を6本、string 4本 → vector 2本の順にグリッドで並べる */
+:root{
+  --bg:#f6f7f4; --fg:#1d2420; --muted:#5d6a63; --card:#ffffff; --line:#d9dfd9;
+  --accent:#0f7a5c; --accent-soft:#dff1ea;
+  --font-body:system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;
+  --font-code:ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141a17; --fg:#e6ece8; --muted:#9aa7a0; --card:#1d2622; --line:#2f3b35;
+  --accent:#4cc9a0; --accent-soft:#1c3a30; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141a17; --fg:#e6ece8; --muted:#9aa7a0; --card:#1d2622; --line:#2f3b35;
+  --accent:#4cc9a0; --accent-soft:#1c3a30; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);line-height:1.7;
+  padding-inline:16px;padding-block:32px 64px}
+main{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+h1{font-size:1.7rem;line-height:1.3;margin:0 0 8px;text-wrap:balance}
+h2{font-size:1.1rem;margin:0 0 12px}
+p{margin:0}
+.lead{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}
+.item{display:flex;flex-direction:column;gap:10px;min-width:0}
+video{width:100%;aspect-ratio:9/16;background:#000;border-radius:8px;display:block}
+.no{font-family:var(--font-code);font-size:.8rem;color:var(--accent)}
+.name{font-weight:700}
+.point{color:var(--muted);font-size:.9rem}
+code{font-family:var(--font-code);background:var(--accent-soft);padding:1px 5px;border-radius:4px;font-size:.85em}
+section{min-width:0}
+</style>
+
+<main>
+  <header>
+    <h1>string と vector の解説動画</h1>
+    <p class="lead">1本 20〜30 秒、音声と効果音つきです。上から順に見ると、string の基本から vector へ進みます。</p>
+  </header>
+
+  <section>
+    <h2>string の問題</h2>
+    <div class="grid">
+      <div class="item">
+        <video src="cpe49-13.mp4#t=0.1" controls preload="metadata" playsinline></video>
+        <span class="no">CPE49-13</span><span class="name">TeX Quotes</span>
+        <span class="point"><code>"</code> を開き・閉じで交互に置き換える。状態は <code>bool</code> 1つ。</span>
+      </div>
+      <div class="item">
+        <video src="cpe49-09.mp4#t=0.1" controls preload="metadata" playsinline></video>
+        <span class="no">CPE49-09</span><span class="name">Decode the Mad man</span>
+        <span class="point">キーを並べた表で、2つ左の文字を探す。表にない文字はそのまま。</span>
+      </div>
+      <div class="item">
+        <video src="cpe49-10.mp4#t=0.1" controls preload="metadata" playsinline></video>
+        <span class="no">CPE49-10</span><span class="name">Summing Digits</span>
+        <span class="point">桁を足して一桁になるまで繰り返す。<code>c - '0'</code> で数に直す。</span>
+      </div>
+      <div class="item">
+        <video src="cpe49-12.mp4#t=0.1" controls preload="metadata" playsinline></video>
+        <span class="no">CPE49-12</span><span class="name">Rotating Sentences</span>
+        <span class="point">縦1列が出力の1行。足りない所は空白で埋める。先に最長を求める。</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>vector の問題</h2>
+    <div class="grid">
+      <div class="item">
+        <video src="cpe49-15.mp4#t=0.1" controls preload="metadata" playsinline></video>
+        <span class="no">CPE49-15</span><span class="name">Jolly Jumpers</span>
+        <span class="point">隣どうしの差に <code>vector&lt;bool&gt;</code> で印をつけ、1〜n-1 が全部そろうか調べる。</span>
+      </div>
+      <div class="item">
+        <video src="cpe49-42.mp4#t=0.1" controls preload="metadata" playsinline></video>
+        <span class="no">CPE49-42</span><span class="name">Train Swapping</span>
+        <span class="point">隣を比べて逆なら入れ替え、回数を数える。<code>4 3 2 1</code> は 6 回。</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+// 1本を再生したら、ほかの動画は止める（音が重ならないように）
+const vids = document.querySelectorAll("video");
+vids.forEach(v => v.addEventListener("play", () => vids.forEach(o => { if (o !== v) o.pause(); })));
+</script>

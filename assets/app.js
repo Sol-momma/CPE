@@ -27,6 +27,9 @@ const LOOP_EX = {
 };
 const exId = (set, n) => (set === '49' ? `CPE49-${String(n).padStart(2, '0')}` : `CPE26-${String(n).padStart(3, '0')}`);
 const TYPES = window.CPE_TYPES || {};
+// 解説動画（videos/ に置いたファイル）。あるものだけ「動画」タブと目印を出す
+const VIDEOS = Object.fromEntries(['09', '10', '12', '13', '15', '42'].map((n) => [`CPE49-${n}`, `videos/cpe49-${n}.mp4`]));
+const videoOf = (it) => VIDEOS[it.id];
 
 /* ───────── 小さな道具 ───────── */
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -50,6 +53,7 @@ const ICONS = {
   copy: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 012-2h9"/>',
   code: '<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/>',
   x: '<path d="M6 6l12 12M18 6L6 18"/>',
+  play: '<path d="M8 5l11 7-11 7z"/>',
   home: '<path d="M4 11l8-7 8 7M6 10v9h12v-9"/>',
 };
 const ic = (n) => `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg>`;
@@ -71,7 +75,7 @@ function ensureSet(id) {
   if (pending[id]) return pending[id];
   pending[id] = new Promise((resolve, reject) => {
     const s = document.createElement('script');
-    s.src = `data/cpe${id}.js?v=20261007j`;
+    s.src = `data/cpe${id}.js?v=20261008b`;
     s.onload = () => { data[id] = window.CPE_SETS[id]; resolve(data[id]); };
     s.onerror = () => { delete pending[id]; reject(new Error(`failed to load ${s.src}`)); };
     document.head.append(s);
@@ -283,7 +287,7 @@ function renderWorkspace(app) {
     <div class="mseg" role="group" aria-label="Pane / 表示"><button type="button" data-act="mpane" data-p="problem" aria-pressed="${S.mpane === 'problem'}">${t3('Problem', '問題', '題目', 'c')}</button><button type="button" data-act="mpane" data-p="code" aria-pressed="${S.mpane === 'code'}">${t3('Code', 'コード', '程式碼', 'c')}</button></div>
     <div class="wmain" id="wmain" style="--split:${layout.split}%;--hsplit:${layout.hsplit}%">
       <section class="pane left" aria-label="Problem / 問題">
-        <div class="pane-bar" role="tablist">${[['desc', 'Description', '問題文', '題目說明'], ['words', 'Words', '単語', '詞彙'], ['idea', 'Idea', '考え方', '想法'], ['orig', 'Original', '原文PDF', '原題 PDF']].map(([k, a, b, c]) => `<button type="button" class="tab" role="tab" data-act="ltab" data-t="${k}" aria-selected="${S.ltab === k}">${t3(a, b, c, 'c')}</button>`).join('')}</div>
+        <div class="pane-bar" role="tablist">${[['desc', 'Description', '問題文', '題目說明'], ['words', 'Words', '単語', '詞彙'], ['idea', 'Idea', '考え方', '想法'], ...(videoOf(it) ? [['video', 'Video', '動画', '影片']] : []), ['orig', 'Original', '原文PDF', '原題 PDF']].map(([k, a, b, c]) => `<button type="button" class="tab" role="tab" data-act="ltab" data-t="${k}" aria-selected="${S.ltab === k}">${t3(a, b, c, 'c')}</button>`).join('')}</div>
         <div class="pane-body" id="lbody"></div>
       </section>
       <div class="vsep" id="vsep" role="separator" aria-orientation="vertical" aria-label="Resize panes" tabindex="0"></div>
@@ -305,9 +309,10 @@ function renderWorkspace(app) {
 
 function fillLeft(it) {
   const body = $('#lbody'), st = it.stmt;
+  if (S.ltab === 'video' && !videoOf(it)) S.ltab = 'desc';
   $$('.tab[data-act="ltab"]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.t === S.ltab)));
   const title = `<h1 class="ptitle"><span class="no">${esc(it.no)}.</span><span>${esc(it.title)}</span><span id="hk">${solved[it.id] ? Art.badge() : ''}</span></h1>
-    <div class="chips">${lvChip(it)}<span class="chip">UVa ${it.uva}</span>${typeChips(it)}</div>`;
+    <div class="chips">${lvChip(it)}<span class="chip">UVa ${it.uva}</span>${typeChips(it)}${videoOf(it) ? `<button type="button" class="chip vidchip" data-act="ltab" data-t="video">${ic('play')}${t3('Video', '動画', '影片', 'c')}</button>` : ''}</div>`;
   if (S.ltab === 'desc') {
     const terms = st.vocab.map((v) => v.en).filter(Boolean).sort((a, b) => b.length - a.length);
     const meaning = Object.fromEntries(st.vocab.map((v) => [v.en.toLowerCase(), v.ja]));
@@ -335,6 +340,9 @@ function fillLeft(it) {
   } else if (S.ltab === 'idea') {
     body.innerHTML = `<div class="desc">${title}<h3 class="prose" style="margin-top:22px;font-family:var(--serif)">${t3('Idea', '考え方', '想法')}</h3><p class="idea">${esc(it.idea)}</p>
       ${it.types.map((k) => `<div class="patt" style="--pc:var(${TYPES[k].color})"><h4>${t3o(TYPES[k].name)}</h4><p>${esc(TYPES[k].one)}</p><code>${esc(TYPES[k].code)}</code></div>`).join('')}</div>`;
+  } else if (S.ltab === 'video') {
+    body.innerHTML = `<div class="desc">${title}<div class="vidwrap"><video class="vid" src="${esc(videoOf(it))}#t=0.1" controls preload="metadata" playsinline></video></div>
+      <p class="vidnote">${t3('About 25 seconds, with voice and sound effects.', '約25秒。音声と効果音つきです。', '約25秒，附語音與音效。')}</p></div>`;
   } else {
     body.innerHTML = `<div class="desc">${title}<p class="openpdf"><a class="btn" href="${encodeURI(it.pdf)}" target="_blank" rel="noopener">${ic('ext')}${t3('Open PDF', 'PDFを開く', '開啟 PDF', 'c')}</a></p>
       <div class="sheet">${Array.from({ length: it.pages }, (_, i) => `<img src="problems/${it.id}-${i + 1}.png" alt="${esc(it.id)} ${esc(it.title)} (PDF page ${i + 1})" ${i ? 'loading="lazy"' : ''}>`).join('')}</div></div>`;
@@ -409,7 +417,7 @@ function fillDrawerList(reveal) {
   $('#dcnt').innerHTML = `${Art.meter(Math.round((done / meta.n) * 100), done, meta.n, 'sm')}<span>${done} / ${meta.n} ${t3('solved', '解いた', '已解', 'en-only')}</span>`;
   if (!fl.length) { list.innerHTML = '<div class="empty">No matches. / 見つかりません。 / 找不到。</div>'; return; }
   list.innerHTML = gs.map((g) => `${g.head ? `<div class="gh">${g.head}</div>` : ''}${g.items.map((it) => `<button type="button" class="row" data-act="pick" data-id="${it.id}"${S.view === 'problems' && it.id === S.id ? ' aria-current="true"' : ''}>
-      <span class="ok">${solved[it.id] ? ic('check') : ''}</span><span class="tt"><span class="no">${esc(it.no)}.</span>${esc(it.title)}</span><span class="lv" data-l="${it.tier}">${LEVELS[it.tier].short}</span></button>`).join('')}`).join('');
+      <span class="ok">${solved[it.id] ? ic('check') : ''}</span><span class="tt"><span class="no">${esc(it.no)}.</span>${esc(it.title)}${videoOf(it) ? `<span class="hasvid" title="Video / 動画 / 影片">${ic('play')}</span>` : ''}</span><span class="lv" data-l="${it.tier}">${LEVELS[it.tier].short}</span></button>`).join('')}`).join('');
   if (reveal) { const cur = $('.row[aria-current="true"]', list); if (cur) cur.scrollIntoView({ block: 'center' }); }
 }
 function closeLayer() { S.drawer = false; S.pop = null; const l = $('#layer'); if (l) l.innerHTML = ''; }

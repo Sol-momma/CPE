@@ -99,6 +99,12 @@ button.chip:hover { border-color: var(--line-strong); color: var(--ink); }
 .note { margin: 16px 0; padding: 10px 14px; border-left: 3px solid var(--link); background: var(--link-soft); border-radius: 0 8px 8px 0; font-size: .92rem; font-family: var(--sans); }
 .sheet { margin: 10px 0; display: grid; gap: 8px; }
 .sheet img { width: 100%; height: auto; display: block; background: #fff; border-radius: 6px; border: 1px solid var(--line); }
+.vidwrap { margin: 14px 0 8px; display: flex; justify-content: center; }
+.vid { height: clamp(300px, calc(100vh - 400px), 620px); width: auto; max-width: 100%; aspect-ratio: 9 / 16; background: #000; border-radius: 10px; border: 1px solid var(--line-strong); display: block; }
+.vidnote { margin: 4px 0 0; text-align: center; font-size: .85rem; color: var(--muted); }
+.vidchip .ic { width: 13px; height: 13px; fill: currentColor; stroke: none; }
+.hasvid { display: inline-flex; margin-left: 6px; vertical-align: -1px; color: var(--muted); }
+.hasvid .ic { width: 12px; height: 12px; fill: currentColor; stroke: none; }
 .openpdf { margin: 10px 0 4px; }
 .vtbl { margin: 14px 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
 .vtbl table { width: 100%; border-collapse: collapse; font-size: .94rem; }

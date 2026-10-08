@@ -24,6 +24,7 @@ cpe49/
 cpe26/                  # CPE26選集56問（CPE26-011_uva00272_TEX Quotes.pdf と md/）
 answers/                # C++解答 CPE49-xx.cpp / CPE26-xxx.cpp、samples/ にサンプル
 tests/                  # python3 tests/run.py CPE49-02
+videos/                 # 解説動画 cpe49-xx.mp4（声＋効果音）。作成は problems.py、学習ページの「動画」タブが読む（対応表は assets/app.js の VIDEOS）
 done/                   # 解き終わった問題を移す（任意）
 ```
 
